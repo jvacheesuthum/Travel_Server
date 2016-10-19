@@ -7,8 +7,8 @@ import static org.junit.Assert.assertEquals;
  * Created by jam414 on 19/10/16.
  */
 public class MainTest {
-    String test = "CrossLanguage";
-    Printer p = new Printer("CrossLanguage");
+    String test = "CrossLanguageK";
+    Printer p = new Printer("CrossLanguageK");
     Jimmy jim = new Jimmy(p.toString());
 
     @Test
