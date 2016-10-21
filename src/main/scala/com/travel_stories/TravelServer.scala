@@ -6,9 +6,9 @@ package com.travel_stories
 object TravelServer {
 
   def main(args : Array[String]) {
-    def serverPort = 1080
+    val serverPort = 1080
 
-    var communicator = new ServerCommunication(serverPort);
+    val communicator = new ServerCommunication(serverPort);
     print("Starting server on port " + serverPort);
     communicator.start();
 
