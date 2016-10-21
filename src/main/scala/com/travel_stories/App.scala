@@ -7,9 +7,9 @@ object App {
   
   def foo(x : Array[String]) = x.foldLeft("")((a,b) => a + b)
   
-  def main(args : Array[String]) {
+  /*def main(args : Array[String]) {
     val prin = new Printer("epic");
     prin.print();
   }
-
+*/
 }
