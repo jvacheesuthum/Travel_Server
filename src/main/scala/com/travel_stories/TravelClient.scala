@@ -11,6 +11,8 @@ object TravelClient {
 
     client.connectBlocking();
     client.send("HI");
+    client.closeBlocking();
+    println("OKAY?");
   }
 
 }

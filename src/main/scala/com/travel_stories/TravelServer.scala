@@ -9,7 +9,7 @@ object TravelServer {
     val serverPort = 1080
 
     val communicator = new ServerCommunication(serverPort);
-    print("Starting server on port " + serverPort);
+    println("Starting server on port " + serverPort);
     communicator.start();
 
 
