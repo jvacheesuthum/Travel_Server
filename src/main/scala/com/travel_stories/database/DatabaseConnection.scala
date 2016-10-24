@@ -29,7 +29,7 @@ class DatabaseConnection {
   }
 
   def retreiveQuery(sql:String):List[Map[String, Object]] = {
-    val databaseValues:List[Map[String, Object]] = ()
+    val databaseValues:List[Map[String, Object]] = List()
 
     try {
 
@@ -41,8 +41,8 @@ class DatabaseConnection {
       val numColumns: Integer = metaData.getColumnCount
 
       while (resSet.next()) {
-        var row: Map[String, Object] = ()
-        var i = 0;
+        var row: Map[String, Object] = Map()
+        var i = 0
         for (i <- 1 to numColumns) {
           val name: String = metaData.getCatalogName(i)
           val value: Object = resSet.getObject(i)
