@@ -29,6 +29,19 @@
       <version>${scala.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.39</version>
+    </dependency>
+
+<!-- https://mvnrepository.com/artifact/org.java-websocket/Java-WebSocket -->
+    <dependency>
+      <groupId>org.java-websocket</groupId>
+      <artifactId>Java-WebSocket</artifactId>
+      <version>1.3.0</version>
+    </dependency>
+
     <!-- Test -->
     <dependency>
       <groupId>junit</groupId>
@@ -48,12 +61,6 @@
       <version>2.2.4</version>
       <scope>test</scope>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.java-websocket/Java-WebSocket -->
-    <dependency>
-      <groupId>org.java-websocket</groupId>
-      <artifactId>Java-WebSocket</artifactId>
-      <version>1.3.0</version>
-    </dependency>
   </dependencies>
 
   <build>
@@ -69,7 +76,7 @@
           </descriptorRefs>
           <archive>
             <manifest>
-              <mainClass>com.travel-stories.Main</mainClass>
+              <mainClass>com.travel_stories.database.DbTest</mainClass><!--TravelServer</mainClass>-->
             </manifest>
           </archive>
         </configuration>

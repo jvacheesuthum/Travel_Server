@@ -10,9 +10,9 @@ class MySqlDatabase extends TravelServerDatabase {
 
   override def getName(longitude: Double, latitude: Double): String = {
     val sb = new StringBuilder
-    sb.append("SELECT `name`, FROM `geonames` WHERE `longitude` = ")
+    sb.append("SELECT `name` FROM `geonames` WHERE `longitude` = ")
     sb.append(longitude)
-    sb.append(" AND `latitude = ")
+    sb.append(" AND `latitude` = ")
     sb.append(latitude)
     sb.append(";")
 

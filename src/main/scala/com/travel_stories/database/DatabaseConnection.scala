@@ -1,13 +1,17 @@
 package com.travel_stories.database
 
-import java.sql._
-import scala.collection.mutable.Lis
+import java.sql._;
+//import scala.collection.mutable.Map
+//import scala.collection.mutable.ListBuffer
+
+
+
 /**
   * Created by jam414 on 24/10/16.
   */
 class DatabaseConnection {
   //JDBC drivername and Database URL
-  private val DB_URL = "jdbc:mysql://localhost:3306/location"
+  private val DB_URL = "jdbc:mysql://localhost:3306/locations"
 
   //Database credentials
   private val USER = "TravelServer"
@@ -39,17 +43,21 @@ class DatabaseConnection {
 
       val metaData: ResultSetMetaData = resSet.getMetaData
       val numColumns: Integer = metaData.getColumnCount
+      println(numColumns)
 
       while (resSet.next()) {
         var row = Map[String, Object]()
         var i = 0
         for (i <- 1 to numColumns) {
-          val name: String = metaData.getCatalogName(i)
+          val name: String = metaData.getColumnName(i)
+	  println(name)
           val value: Object = resSet.getObject(i)
+	  println(value)
           row += (name -> value)
         }
-
-        databaseValues = row :: databaseValues
+	println(row)
+        databaseValues = row::databaseValues
+	println(databaseValues)
       }
 
       resSet.close()
@@ -63,7 +71,7 @@ class DatabaseConnection {
     }
 
   def executeQuery(sql:String):Int ={
-    var result:Int = 0;
+    var result:Int = 0
     try {
       val stmt:Statement = conn.createStatement
       result = stmt.executeUpdate(sql)
