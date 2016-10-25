@@ -6,6 +6,7 @@ package com.travel_stories.database
 class MySqlDatabase extends TravelServerDatabase {
 
   val dbConnection = new DatabaseConnection()
+  dbConnection.connect
 
   override def getName(longitude: Double, latitude: Double): String = {
     val sb = new StringBuilder
@@ -22,7 +23,7 @@ class MySqlDatabase extends TravelServerDatabase {
     if (result.isEmpty) throw LocationNotFoundException("Location not in db");
     else{
       //gross code
-      result.head.get("name").asInstanceOf[String];
+      result.head("name").asInstanceOf[String];
     }
 
 

@@ -1,7 +1,7 @@
 package com.travel_stories.database
 
-import java.sql._;
-
+import java.sql._
+import scala.collection.mutable.Lis
 /**
   * Created by jam414 on 24/10/16.
   */
@@ -29,7 +29,7 @@ class DatabaseConnection {
   }
 
   def retreiveQuery(sql:String):List[Map[String, Object]] = {
-    val databaseValues:List[Map[String, Object]] = List()
+    var databaseValues = List[Map[String, Object]]()
 
     try {
 
@@ -41,14 +41,15 @@ class DatabaseConnection {
       val numColumns: Integer = metaData.getColumnCount
 
       while (resSet.next()) {
-        var row: Map[String, Object] = Map()
+        var row = Map[String, Object]()
         var i = 0
         for (i <- 1 to numColumns) {
           val name: String = metaData.getCatalogName(i)
           val value: Object = resSet.getObject(i)
-          row + (name -> value)
+          row += (name -> value)
         }
-        row :: databaseValues
+
+        databaseValues = row :: databaseValues
       }
 
       resSet.close()
