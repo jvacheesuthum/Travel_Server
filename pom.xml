@@ -103,7 +103,7 @@
       </plugin>
         <!-- see http://davidb.github.com/scala-maven-plugin -->
         <!--added some stuff dorm scalatest.org lets see if it works -->
-	  
+
       <plugin>
         <groupId>net.alchim31.maven</groupId>
         <artifactId>scala-maven-plugin</artifactId>
@@ -147,6 +147,25 @@
           <include>**/*Suite.*</include>
         </includes>
       </configuration>
+    </plugin>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-failsafe-plugin</artifactId>
+      <version>2.13</version>
+      <executions>
+        <execution>
+          <id>integration-test</id>
+          <goals>
+            <goal>integration-test</goal>
+          </goals>
+        </execution>
+        <execution>
+          <id>verify</id>
+          <goals>
+            <goal>verify</goal>
+          </goals>
+        </execution>
+      </executions>
     </plugin>
   </plugins>
 </build>
