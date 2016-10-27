@@ -5,4 +5,6 @@ package com.travel_stories
   */
 class ScalaTest {
 
+  
+
 }

@@ -50,16 +50,11 @@ class DatabaseConnection {
         var i = 0
         for (i <- 1 to numColumns) {
           val name: String = metaData.getColumnName(i)
-	  println(name)
           val value: Object = resSet.getObject(i)
-	  println(value)
           row += (name -> value)
         }
-	println(row)
         databaseValues = row::databaseValues
-	println(databaseValues)
       }
-
       resSet.close()
       stmt.close()
     }
@@ -67,7 +62,7 @@ class DatabaseConnection {
       case e: Exception => connect(); e.printStackTrace();
     }
 
-    return databaseValues;
+    databaseValues
     }
 
   def executeQuery(sql:String):Int ={
