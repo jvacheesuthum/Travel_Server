@@ -6,8 +6,8 @@ package com.travel_stories.database
 object DbTest {
 
   def main(args: Array[String]): Unit = {
-    var dbtest = new MySqlDatabase;
-    var testString = dbtest.getName(1024,1024);
+    val dbtest = new MySqlDatabase;
+    val testString = dbtest.getName(1024,1024);
     println(testString);
   }
 
