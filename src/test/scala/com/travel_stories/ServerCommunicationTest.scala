@@ -18,6 +18,7 @@ class ServerCommunicationTest extends UnitSpec{
     comm.communicator.start()
     comm.client.connectBlocking()
     comm.client.send(message)
+
     comm.client.closeBlocking()
     comm.client.getLastMessage shouldBe message
   }
