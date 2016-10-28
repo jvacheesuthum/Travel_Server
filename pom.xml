@@ -15,10 +15,10 @@
   </licenses>
 
   <properties>
-    <maven.compiler.source>1.6</maven.compiler.source>
-    <maven.compiler.target>1.6</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
     <encoding>UTF-8</encoding>
-    <scala.version>2.11.5</scala.version>
+    <scala.version>2.11.8</scala.version>
     <scala.compat.version>2.11</scala.compat.version>
   </properties>
 
@@ -42,18 +42,18 @@
       <version>1.3.0</version>
     </dependency>
     <!-- Test -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.specs2</groupId>
-      <artifactId>specs2-core_${scala.compat.version}</artifactId>
-      <version>2.4.16</version>
-      <scope>test</scope>
-    </dependency>
+    <!-- <dependency> -->
+    <!--   <groupId>junit</groupId> -->
+    <!--   <artifactId>junit</artifactId> -->
+    <!--   <version>4.11</version> -->
+    <!--   <scope>test</scope> -->
+    <!-- </dependency> -->
+    <!-- <dependency> -->
+    <!--   <groupId>org.specs2</groupId> -->
+    <!--   <artifactId>specs2-core_${scala.compat.version}</artifactId> -->
+    <!--   <version>2.4.16</version> -->
+    <!--   <scope>test</scope> -->
+    <!-- </dependency> -->
     <!-- tests from online (second one was already here but an older version)-->
     <dependency>
   		<groupId>org.scalactic</groupId>
@@ -66,6 +66,12 @@
   		<version>3.0.0</version>
   		<scope>test</scope>
 	</dependency>
+    <dependency>
+      <groupId>org.scalastyle</groupId>
+      <artifactId>scalastyle-maven-plugin</artifactId>
+      <version>0.8.0</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <repositories>
     <repository>
@@ -124,6 +130,7 @@
               <goal>testCompile</goal>
             </goals>
             <configuration>
+              <recompileMode>incremental</recompileMode>
               <args>
                 <!--<arg>-make:transitive</arg>-->
                 <arg>-optimise</arg>
@@ -183,6 +190,29 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.scalastyle</groupId>
+        <artifactId>scalastyle-maven-plugin</artifactId>
+        <version>0.8.0</version>
+        <configuration>
+          <verbose>false</verbose>
+          <failOnViolation>true</failOnViolation>
+          <includeTestSourceDirectory>true</includeTestSourceDirectory>
+          <failOnWarning>false</failOnWarning>
+          <sourceDirectory>${basedir}/src/main/scala</sourceDirectory>
+          <testSourceDirectory>${basedir}/src/test/scala</testSourceDirectory>
+          <configLocation>${basedir}/lib/scalastyle_config.xml</configLocation>
+          <outputFile>${project.basedir}/scalastyle-output.xml</outputFile>
+          <outputEncoding>UTF-8</outputEncoding>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <!-- <plugin> -->
         <!-- <groupId>org.apache.maven.plugins</groupId> -->
         <!-- <artifactId>maven-surefire-plugin</artifactId> -->
@@ -199,5 +229,13 @@
       <!-- </configuration> -->
     <!-- </plugin> -->
   </plugins>
-</build>
+  </build>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.scala-tools</groupId>
+        <artifactId>maven-scala-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </reporting>
 </project>
