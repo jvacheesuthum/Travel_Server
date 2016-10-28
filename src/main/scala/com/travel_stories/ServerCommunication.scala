@@ -12,7 +12,7 @@ import org.java_websocket.server.WebSocketServer
 class ServerCommunication(listenPort:Int ) extends WebSocketServer(new InetSocketAddress(listenPort)) {
   //might delete later
   var socketConn : SocketNetworkConnection = null;
-  var messenger : MessageHandler = null
+  //var messenger : MessageHandler = null
 
   override def onOpen(conn: WebSocket, handshake: ClientHandshake): Unit = {
     // might delete later
@@ -22,7 +22,7 @@ class ServerCommunication(listenPort:Int ) extends WebSocketServer(new InetSocke
 
   override def onClose(conn: WebSocket, code: Int, reason: String, remote: Boolean): Unit = {}
 
-  override def onMessage(conn: WebSocket, message: String): Unit = messenger.onMessage(new SocketNetworkConnection(conn), message);
+  override def onMessage(conn: WebSocket, message: String): Unit = new MessageHandler().onMessage(new SocketNetworkConnection(conn), message);
 
   override def onError(conn: WebSocket, ex: Exception): Unit = ???
 }
