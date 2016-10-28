@@ -20,9 +20,7 @@ class ServerCommunication(listenPort:Int ) extends WebSocketServer(new InetSocke
     //messenger = new MessageHandler(socketConn);
   }
 
-  override def onClose(conn: WebSocket, code: Int, reason: String, remote: Boolean): Unit = {
-    if(socketConn != null){ socketConn.send("It does Work :)")}
-  }
+  override def onClose(conn: WebSocket, code: Int, reason: String, remote: Boolean): Unit = {}
 
   override def onMessage(conn: WebSocket, message: String): Unit = messenger.onMessage(new SocketNetworkConnection(conn), message);
 
