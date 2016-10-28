@@ -126,6 +126,8 @@
             <configuration>
               <args>
                 <!--<arg>-make:transitive</arg>-->
+                <arg>-optimise</arg>
+                <arg>-deprecation</arg>
                 <arg>-dependencyfile</arg>
                 <arg>${project.build.directory}/.scala_dependencies</arg>
               </args>
@@ -142,6 +144,26 @@
           <skipTests>true</skipTests>
         </configuration>
       </plugin>
+      <!--Can Use Failsafe properly with scalatest-maven-plugin-->
+      <!-- <plugin> -->
+      <!--   <groupId>org.apache.maven.plugins</groupId> -->
+      <!--   <artifactId>maven-failsafe-plugin</artifactId> -->
+      <!--   <version>2.13</version> -->
+      <!--   <executions> -->
+      <!--     <execution> -->
+      <!--       <id>integration-test</id> -->
+      <!--       <goals> -->
+      <!--         <goal>integration-test</goal> -->
+      <!--       </goals> -->
+      <!--     </execution> -->
+      <!--     <execution> -->
+      <!--       <id>verify</id> -->
+      <!--       <goals> -->
+      <!--         <goal>verify</goal> -->
+      <!--       </goals> -->
+      <!--     </execution> -->
+      <!--   </executions> -->
+      <!-- </plugin> -->
       <!--enable scalatest-->
       <plugin>
         <groupId>org.scalatest</groupId>
@@ -176,25 +198,6 @@
         <!-- </includes> -->
       <!-- </configuration> -->
     <!-- </plugin> -->
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-failsafe-plugin</artifactId>
-      <version>2.13</version>
-      <executions>
-        <execution>
-          <id>integration-test</id>
-          <goals>
-            <goal>integration-test</goal>
-          </goals>
-        </execution>
-        <execution>
-          <id>verify</id>
-          <goals>
-            <goal>verify</goal>
-          </goals>
-        </execution>
-      </executions>
-    </plugin>
   </plugins>
 </build>
 </project>
