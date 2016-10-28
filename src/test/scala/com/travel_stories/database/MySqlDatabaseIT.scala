@@ -1,6 +1,6 @@
-package com.travel_stories.integration_tests
+package com.travel_stories.database
 
-import com.travel_stories.database.MySqlDatabase
+import com.travel_stories.IntegrationSpec
 
 /**
   * Created by jam414 on 28/10/16.

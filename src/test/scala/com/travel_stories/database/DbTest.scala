@@ -1,4 +1,4 @@
-package com.travel_stories.integration_tests
+package com.travel_stories.database
 
 import org.scalatest.Tag
 

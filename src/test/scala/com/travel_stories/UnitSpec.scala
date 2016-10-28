@@ -1,4 +1,4 @@
-package com.travel_stories.unit_tests
+package com.travel_stories
 
 import org.scalatest.{FlatSpec, Matchers}
 
