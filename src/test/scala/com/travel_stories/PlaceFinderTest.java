@@ -6,8 +6,9 @@ import com.travel_stories.database.TravelServerDatabase;
 
 public class PlaceFinderTest {
 	
+	private boolean verbosity = true;
 	TravelServerDatabase db;
-	PlaceFinder p = new PlaceFinder(db, "AIzaSyDydfFUeuoJYb4inez08Apg4XDVTVPQDqM");
+	PlaceFinder p = new PlaceFinder(db, "AIzaSyDydfFUeuoJYb4inez08Apg4XDVTVPQDqM", verbosity);
 	
 	@Test
 	public void VeryExactPlace() {

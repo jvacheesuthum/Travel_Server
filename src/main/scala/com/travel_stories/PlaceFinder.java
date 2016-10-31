@@ -14,6 +14,8 @@ import com.travel_stories.database.TravelServerDatabase;
 
 public class PlaceFinder {
 	
+	boolean verbose = false;
+	
 	private TravelServerDatabase db;
 	private String key;
 	private final int[] radius = {10, 100, 500, 1000};
@@ -21,6 +23,12 @@ public class PlaceFinder {
 	public PlaceFinder(TravelServerDatabase db, String apikey) {
 		this.db = db;
 		this.key = apikey;
+	}
+	
+	public PlaceFinder(TravelServerDatabase db, String apikey, boolean verbosity) {
+		this.db = db;
+		this.key = apikey;
+		this.verbose = verbosity;
 	}
 	
 	public String getPlace(Double longtitude, Double latitude) {
@@ -44,8 +52,8 @@ public class PlaceFinder {
 		// try to search the more exact location, then expand radius is nothing is found.
 		for (int i =0; i< 4;) {
 			
-			System.out.println("searching for radius: " + radius[i]);
-			if (!filter) System.out.println("Interesting place filter is off");
+			if (verbose) System.out.println("searching for radius: " + radius[i]);
+			if (verbose && !filter) System.out.println("Interesting place filter is off");
 			
 			// create search from given long lat, with varying radius and filter options
 			StringBuilder sb = new StringBuilder();
