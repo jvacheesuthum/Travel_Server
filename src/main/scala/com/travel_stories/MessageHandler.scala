@@ -6,7 +6,9 @@ package com.travel_stories
 class MessageHandler { //(socketConn:SocketNetworkConnection) {
 
   def onMessage(socketConn:SocketNetworkConnection, message:String) = {
+
     socketConn.send(message)
+
   }
 
 

@@ -29,9 +29,9 @@
       <version>${scala.version}</version>
     </dependency>
     <dependency>
-        <groupId>com.google.code.gson</groupId>
-        <artifactId>gson</artifactId>
-        <version>2.8.0</version>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.8.0</version>
     </dependency>
 
 <!--JavaSqlConnector-->
@@ -48,35 +48,48 @@
     </dependency>
     <!-- Test -->
     <!-- <dependency> -->
-    <!--   <groupId>junit</groupId> -->
-    <!--   <artifactId>junit</artifactId> -->
-    <!--   <version>4.11</version> -->
-    <!--   <scope>test</scope> -->
-    <!-- </dependency> -->
+      <!--   <groupId>junit</groupId> -->
+      <!--   <artifactId>junit</artifactId> -->
+      <!--   <version>4.11</version> -->
+      <!--   <scope>test</scope> -->
+      <!-- </dependency> -->
     <!-- <dependency> -->
-    <!--   <groupId>org.specs2</groupId> -->
-    <!--   <artifactId>specs2-core_${scala.compat.version}</artifactId> -->
-    <!--   <version>2.4.16</version> -->
-    <!--   <scope>test</scope> -->
-    <!-- </dependency> -->
+      <!--   <groupId>org.specs2</groupId> -->
+      <!--   <artifactId>specs2-core_${scala.compat.version}</artifactId> -->
+      <!--   <version>2.4.16</version> -->
+      <!--   <scope>test</scope> -->
+      <!-- </dependency> -->
     <!-- tests from online (second one was already here but an older version)-->
     <dependency>
-  		<groupId>org.scalactic</groupId>
-  		<artifactId>scalactic_${scala.compat.version}</artifactId>
-  		<version>3.0.0</version>
-	</dependency>
-	<dependency>
-  		<groupId>org.scalatest</groupId>
-  		<artifactId>scalatest_${scala.compat.version}</artifactId>
-  		<version>3.0.0</version>
-  		<scope>test</scope>
-	</dependency>
+      <groupId>org.scalactic</groupId>
+      <artifactId>scalactic_${scala.compat.version}</artifactId>
+      <version>3.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.scalatest</groupId>
+      <artifactId>scalatest_${scala.compat.version}</artifactId>
+      <version>3.0.0</version>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>org.scalastyle</groupId>
       <artifactId>scalastyle-maven-plugin</artifactId>
       <version>0.8.0</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.scala-tools/maven-scala-plugin -->
+    <dependency>
+      <groupId>org.scala-tools</groupId>
+      <artifactId>maven-scala-plugin</artifactId>
+      <version>2.15.2</version>
+    </dependency>
+
   </dependencies>
   <repositories>
     <repository>
@@ -112,8 +125,8 @@
           </execution>
         </executions>
       </plugin>
-        <!-- see http://davidb.github.com/scala-maven-plugin -->
-        <!--added some stuff dorm scalatest.org lets see if it works -->
+      <!-- see http://davidb.github.com/scala-maven-plugin -->
+      <!--added some stuff dorm scalatest.org lets see if it works -->
 
       <plugin>
         <groupId>net.alchim31.maven</groupId>
@@ -121,11 +134,11 @@
         <version>3.2.0</version>
         <configuration>
           <compilerPlugins>
-            <compilerPlugin>
-              <groupId>com.artima.supersafe</groupId>
-              <artifactId>supersafe_2.11.7</artifactId>
-              <version>1.1.0-RC7</version>
-            </compilerPlugin>
+            <!-- <compilerPlugin> -->
+            <!--   <groupId>com.artima.supersafe</groupId> -->
+            <!--   <artifactId>supersafe_2.11.7</artifactId> -->
+            <!--   <version>1.1.0-RC7</version> -->
+            <!-- </compilerPlugin> -->
           </compilerPlugins>
         </configuration>
         <executions>
@@ -135,7 +148,7 @@
               <goal>testCompile</goal>
             </goals>
             <configuration>
-              <recompileMode>incremental</recompileMode>
+              <!-- <recompileMode>incremental</recompileMode> -->
               <args>
                 <!--<arg>-make:transitive</arg>-->
                 <arg>-optimise</arg>
@@ -158,24 +171,24 @@
       </plugin>
       <!--Can Use Failsafe properly with scalatest-maven-plugin-->
       <!-- <plugin> -->
-      <!--   <groupId>org.apache.maven.plugins</groupId> -->
-      <!--   <artifactId>maven-failsafe-plugin</artifactId> -->
-      <!--   <version>2.13</version> -->
-      <!--   <executions> -->
-      <!--     <execution> -->
-      <!--       <id>integration-test</id> -->
-      <!--       <goals> -->
-      <!--         <goal>integration-test</goal> -->
-      <!--       </goals> -->
-      <!--     </execution> -->
-      <!--     <execution> -->
-      <!--       <id>verify</id> -->
-      <!--       <goals> -->
-      <!--         <goal>verify</goal> -->
-      <!--       </goals> -->
-      <!--     </execution> -->
-      <!--   </executions> -->
-      <!-- </plugin> -->
+        <!--   <groupId>org.apache.maven.plugins</groupId> -->
+        <!--   <artifactId>maven-failsafe-plugin</artifactId> -->
+        <!--   <version>2.13</version> -->
+        <!--   <executions> -->
+          <!--     <execution> -->
+            <!--       <id>integration-test</id> -->
+            <!--       <goals> -->
+              <!--         <goal>integration-test</goal> -->
+              <!--       </goals> -->
+            <!--     </execution> -->
+          <!--     <execution> -->
+            <!--       <id>verify</id> -->
+            <!--       <goals> -->
+              <!--         <goal>verify</goal> -->
+              <!--       </goals> -->
+            <!--     </execution> -->
+          <!--   </executions> -->
+        <!-- </plugin> -->
       <!--enable scalatest-->
       <plugin>
         <groupId>org.scalatest</groupId>
@@ -230,17 +243,17 @@
         <!-- <includes> -->
           <!-- <include>**/*Test.*</include> -->
           <!-- <include>**/*Suite.*</include> -->
-        <!-- </includes> -->
-      <!-- </configuration> -->
-    <!-- </plugin> -->
+          <!-- </includes> -->
+        <!-- </configuration> -->
+      <!-- </plugin> -->
   </plugins>
-  </build>
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.scala-tools</groupId>
-        <artifactId>maven-scala-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </reporting>
+</build>
+<reporting>
+  <plugins>
+    <plugin>
+      <groupId>org.scala-tools</groupId>
+      <artifactId>maven-scala-plugin</artifactId>
+    </plugin>
+  </plugins>
+</reporting>
 </project>

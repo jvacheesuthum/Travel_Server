@@ -8,7 +8,7 @@ object TravelServer {
   def main(args : Array[String]) {
     val serverPort = 1080
 
-    val communicator = new ServerCommunication(serverPort);
+    val communicator = new ServerCommunication(serverPort, new MessageHandler);
     println("Starting server on port " + serverPort);
     communicator.start();
 
