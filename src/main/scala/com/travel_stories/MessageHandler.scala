@@ -14,11 +14,14 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
     val request = message.split(":")
     values =
       request(0) match {
-      case "timeline_address" => nameRequest(request(1));
+      case "timeline_address" => nameRequest(request(1))
+      case _ => Array("hi","hiya","Default")
 
       }
 
-    socketConn.send(values.toString)
+      socketConn.send("timeline_address:" + values.mkString(","))
+
+    //socketConn.send("timeline_address" + values.mkString(","))
 
 
 

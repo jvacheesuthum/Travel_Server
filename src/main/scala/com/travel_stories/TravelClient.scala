@@ -6,17 +6,19 @@ package com.travel_stories
 object TravelClient {
 
   def main(args: Array[String]): Unit = {
-   /* val serverPort = 1080
+    val serverPort = 1080
+    val test = "timeline_address:256.0,325.7@542.25,452.5654@541.6,641.36@"
     val client = new Client("http://cloud-vm-46-251.doc.ic.ac.uk:" + serverPort)
 
     client.connectBlocking();
-    client.send("HI");
-    client.closeBlocking();
-    println("OKAY?");*/
+    client.send(test);
+    while (true){
 
-    /*val t = new MessageHandler
-    t.onMessage(null, "name:256.0,325.7@542.25,452.5654@541.6,641.36@")
-*/
+    }
+    client.closeBlocking();
+    println("OKAY?");
+
+
   }
 
 }
