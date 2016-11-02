@@ -12,6 +12,8 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
 
     var values = Array[String]()
     val request = message.split(":")
+    println(request(0))
+    println(request(1))
     values =
       request(0) match {
       case "timeline_address" => nameRequest(request(1))
