@@ -9,7 +9,7 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
 
 
   def onMessage(socketConn:SocketNetworkConnection, message:String):String = {
-
+/*
     var values = Array[String]()
     val request = message.split(":")
     println(request(0))
@@ -20,8 +20,8 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
       case _ => Array("hi","hiya","Default")
 
       }
-
-      "timeline_address:"// + values.mkString(","))
+*/
+      message// + values.mkString(","))
 
     //socketConn.send("timeline_address" + values.mkString(","))
 
