@@ -23,7 +23,7 @@ class ServerCommunication(listenPort:Int, handler: MessageHandler ) extends WebS
 
   override def onMessage(conn: WebSocket, message: String) {
 
-    new SocketNetworkConnection(conn).send("YES")//handler.onMessage (new SocketNetworkConnection(conn), message)
+    handler.onMessage (new SocketNetworkConnection(conn), message)
 
   }
 
