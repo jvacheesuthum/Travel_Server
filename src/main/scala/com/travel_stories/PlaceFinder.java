@@ -31,20 +31,22 @@ public class PlaceFinder {
         this.verbose = verbosity;
     }
 
-    public String getPlace(Double longtitude, Double latitude) {
-        String result;
+    public String getPlace(Double longitude, Double latitude) {
+        
+    	String result;
+        
         try {
             //try to find from stored data
-            result = db.getName(longtitude, latitude);
+            result = db.getName(longitude, latitude);
         } catch (LocationNotFoundException e) {
             // if data is not found in db, search google maps
-            result = webGetPlace(longtitude, latitude);
+            result = webGetPlace(longitude, latitude);
             //TODO: add result to database
         }
-        return result;
+        return storeInDB(result, longitude, latitude);
     }
 
-    String webGetPlace(Double longtitude, Double latitude) {
+    String webGetPlace(Double longitude, Double latitude) {
 
         // filter controls whether we should find "interesting" places or any place
         boolean filter = true;
@@ -60,7 +62,7 @@ public class PlaceFinder {
             sb.append("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=");
             sb.append(latitude);
             sb.append(',');
-            sb.append(longtitude);
+            sb.append(longitude);
             sb.append("&radius=");
             sb.append(radius[i]);
             if (filter) {
@@ -92,6 +94,11 @@ public class PlaceFinder {
 
         return null;
 
+    }
+    
+    private String storeInDB(String result, Double longitude, Double latitude) {
+    	db.storeName(result, longitude, latitude);
+    	return result;
     }
 
 }
