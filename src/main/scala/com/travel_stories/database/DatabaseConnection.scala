@@ -11,7 +11,7 @@ import java.sql._;
   */
 class DatabaseConnection {
   //JDBC drivername and Database URL
-  private val DB_URL = "jdbc:mysql://cloud-vm-46-251.doc.ic.ac.uk:3306/locations?autoReconnect=true&useSSL=false"
+  private val DB_URL = "jdbc:mysql://localhost:3306/locations?autoReconnect=true&useSSL=false"
 
   //Database credentials
   private val USER = "TravelServer"
