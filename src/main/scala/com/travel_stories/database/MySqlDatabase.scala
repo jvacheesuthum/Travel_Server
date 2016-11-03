@@ -28,7 +28,7 @@ class MySqlDatabase extends TravelServerDatabase {
     }
   }
   
-  override def storeName(name:String, longitude: Double, latitude: Double)= {
+  override def storeName(name:String, longitude: Double, latitude: Double):Unit = {
     //TODO: 
     // try to getName
     // if empty just add
