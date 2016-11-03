@@ -8,9 +8,9 @@ import com.travel_stories.database.MySqlDatabase
 object TravelClient {
 
   def main(args: Array[String]): Unit = {
-    val serverPort = 1085
+    val serverPort = 1080
     val url = "ws://cloud-vm-46-251.doc.ic.ac.uk:1080"//ws://localhost:1080"
-    val test = "timeline_address:256.0,325.7@542.25,452.5654@541.6,641.36@"
+    val test = "timeline_address:-0.1269566, 51.5194133@-2.004155, 53.271150@-3.357819, 57.155797@"
     val client = new Client(url)// + serverPort)
 
     /*val communicator = new ServerCommunication(serverPort, new MessageHandler(new MySqlDatabase));
