@@ -1,6 +1,6 @@
 package com.travel_stories
 
-import com.travel_stories.database.MySqlDatabase
+import com.travel_stories.database.{LocalDataBase, MySqlDatabase, TravelServerDatabase}
 import org.java_websocket.WebSocketImpl
 
 /**
@@ -10,10 +10,11 @@ object TravelServer {
 
   def main(args : Array[String]) {
     val serverPort = 1080
+    val db:TravelServerDatabase = if (args.length < 0) new MySqlDatabase else new LocalDataBase
 
-    val communicator = new ServerCommunication(serverPort, new MessageHandler(new MySqlDatabase));
+    val communicator = new ServerCommunication(serverPort, new MessageHandler(db));
     println("Starting server on port " + serverPort);
-    WebSocketImpl.DEBUG = true
+    //WebSocketImpl.DEBUG = true
     communicator.start();
 
 
