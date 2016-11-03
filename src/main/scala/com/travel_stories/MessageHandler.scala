@@ -7,9 +7,11 @@ import com.travel_stories.database.TravelServerDatabase
   */
 class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConnection) {
 
+  val placeFinder = new PlaceFinder(db,"AIzaSyDydfFUeuoJYb4inez08Apg4XDVTVPQDqM")
+
 
   def onMessage(socketConn:SocketNetworkConnection, message:String):String = {
-/*
+
     var values = Array[String]()
     val request = message.split(":")
     println(request(0))
@@ -20,8 +22,8 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
       case _ => Array("hi","hiya","Default")
 
       }
-*/
-      message// + values.mkString(","))
+
+      values.mkString(",")
 
     //socketConn.send("timeline_address" + values.mkString(","))
 
@@ -30,6 +32,7 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
   }
 
   def nameRequest(loc: String): Array[String] = {
+    println("|Get Here")
     val locationList = loc.split("@")
     var l = List[String]()
 
@@ -37,7 +40,7 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
         s = location.split(",");
         long = s(0).toDouble;
         lat = s(1).toDouble;
-        name = db.getName(long,lat)
+        name = placeFinder.getPlace(long,lat)
         )yield name //l = long::lat::l
   }
 
