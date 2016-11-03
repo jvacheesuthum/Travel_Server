@@ -13,19 +13,19 @@ class ServerCommunication(listenPort:Int, handler: MessageHandler ) extends WebS
   //var socketConn : SocketNetworkConnection = null;
 
   override def onOpen(conn: WebSocket, handshake: ClientHandshake): Unit = {
-    conn.send("Connected to Server")
+    new SocketNetworkConnection(conn).send("Connected to Server")
     // might delete later
     //socketConn = new SocketNetworkConnection (conn);
     //messenger = new MessageHandler(socketConn);
   }
 
-  override def onClose(conn: WebSocket, code: Int, reason: String, remote: Boolean): Unit = conn.send("Closed server connection")
+  override def onClose(conn: WebSocket, code: Int, reason: String, remote: Boolean): Unit = new SocketNetworkConnection(conn).send("Closed server connection")
 
   override def onMessage(conn: WebSocket, message: String) {
 
-    handler.onMessage (new SocketNetworkConnection (conn), message)
+    handler.onMessage (new SocketNetworkConnection(conn), message)
 
   }
 
-  override def onError(conn: WebSocket, ex: Exception): Unit = conn.send("error on the server")
+  override def onError(conn: WebSocket, ex: Exception): Unit = new SocketNetworkConnection(conn).send("error on the server")
 }

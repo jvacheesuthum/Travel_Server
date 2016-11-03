@@ -21,7 +21,7 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
 
       }
 
-      socketConn.send("timeline_address:" + values.mkString(","))
+      socketConn.send("timeline_address:")// + values.mkString(","))
 
     //socketConn.send("timeline_address" + values.mkString(","))
 
