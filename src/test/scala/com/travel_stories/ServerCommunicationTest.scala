@@ -11,7 +11,7 @@ class ServerCommunicationTest extends UnitSpec{
     new {
       val serverPort = 1080
       val communicator = new ServerCommunication(serverPort, new MessageHandler(new MySqlDatabase))
-      val client = new Client("http://localhost:" + serverPort);
+      val client = new Client_scala("http://localhost:" + serverPort);
     }
 
   "a client" should "recieve the message they send" taggedAs(UnitTest) ignore {

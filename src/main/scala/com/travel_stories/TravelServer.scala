@@ -1,6 +1,7 @@
 package com.travel_stories
 
 import com.travel_stories.database.MySqlDatabase
+import org.java_websocket.WebSocketImpl
 
 /**
   * Created by jam414 on 20/10/16.
@@ -12,6 +13,7 @@ object TravelServer {
 
     val communicator = new ServerCommunication(serverPort, new MessageHandler(new MySqlDatabase));
     println("Starting server on port " + serverPort);
+    WebSocketImpl.DEBUG = true
     communicator.start();
 
 
