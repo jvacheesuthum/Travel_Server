@@ -8,7 +8,7 @@ import com.travel_stories.database.TravelServerDatabase
 class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConnection) {
 
 
-  def onMessage(socketConn:SocketNetworkConnection, message:String) = {
+  def onMessage(socketConn:SocketNetworkConnection, message:String):String = {
 
     var values = Array[String]()
     val request = message.split(":")
@@ -21,7 +21,7 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
 
       }
 
-      socketConn.send("timeline_address:")// + values.mkString(","))
+      "timeline_address:"// + values.mkString(","))
 
     //socketConn.send("timeline_address" + values.mkString(","))
 

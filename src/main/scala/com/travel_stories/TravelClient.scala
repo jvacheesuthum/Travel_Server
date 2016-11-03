@@ -18,6 +18,7 @@ object TravelClient {
     communicator.start();*/
 
     client.connectBlocking()
+    print("HI")
 
     client.send("Hi")
 
