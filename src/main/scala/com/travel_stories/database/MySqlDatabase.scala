@@ -10,7 +10,7 @@ class MySqlDatabase extends TravelServerDatabase {
 
   override def getName(longitude: Double, latitude: Double): String = {
     
-    val pkey:BigInt = mostPopular(cantor(longitude, latitude))
+    val pkey:BigInt = mostPopular(toKey(longitude, latitude))
     
     val sb = new StringBuilder
     sb.append("SELECT `name` FROM `geonames` WHERE `pkey` = ")
@@ -37,11 +37,12 @@ class MySqlDatabase extends TravelServerDatabase {
     // else add to count
   }
   
-  def cantor(longitude: Double, latitude: Double): BigInt = {
-        // round the long and lat to 3 decimal points, accurate to 110m
+  def toKey(longitude: Double, latitude: Double): BigInt = {
+    // make long and lat positive. (range is +-180 and +-90 respectively)
+    // round the long and lat to 3 decimal points, accurate to 110m
     
-    val lat:BigDecimal = BigDecimal(longitude * 1000).setScale(0, BigDecimal.RoundingMode.HALF_UP)
-    val long:BigDecimal = BigDecimal(latitude * 1000).setScale(0, BigDecimal.RoundingMode.HALF_UP)
+    val lat:BigDecimal = BigDecimal((longitude + 180) * 1000).setScale(0, BigDecimal.RoundingMode.HALF_UP)
+    val long:BigDecimal = BigDecimal((latitude + 90) * 1000).setScale(0, BigDecimal.RoundingMode.HALF_UP)
     
     // calculate the primary key 
     // using the cantor pairing function 0.5*(a+b)(a+b+1)+b
