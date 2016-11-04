@@ -37,11 +37,10 @@ public class PlaceFinder {
         
         try {
             //try to find from stored data
-            result = db.getName(longitude, latitude);
+            return db.getName(longitude, latitude);
         } catch (LocationNotFoundException e) {
             // if data is not found in db, search google maps
             result = webGetPlace(longitude, latitude);
-            //TODO: add result to database
         }
         return storeInDB(result, longitude, latitude);
     }
@@ -97,7 +96,9 @@ public class PlaceFinder {
     }
     
     private String storeInDB(String result, Double longitude, Double latitude) {
-    	db.storeName(result, longitude, latitude);
+    	if (result != null) {
+    		db.storeName(result, longitude, latitude);
+    	}
     	return result;
     }
 
