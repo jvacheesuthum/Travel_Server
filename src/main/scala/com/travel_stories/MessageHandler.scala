@@ -12,18 +12,19 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
 
   def onMessage(message:String):String = {
 
-    var values = Array[String]()
+    //var values:String;
     val request = message.split(":")
     println(request(0))
     println(request(1))
-    values =
+    val values:String =
       request(0) match {
-      case "timeline_address" => nameRequest(request(1))
-      case _ => Array("You Didn't Send ANything Worthwhile")
+      case "timeline_address" => "timeline_address:" + nameRequest(request(1)).mkString(",")
+
+      case _ => "You Didn't Send Anything Worthwhile"
 
       }
 
-      values.mkString(",")
+    values
 
   }
 

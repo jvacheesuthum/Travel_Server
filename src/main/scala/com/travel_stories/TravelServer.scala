@@ -10,8 +10,7 @@ object TravelServer {
 
   def main(args : Array[String]) {
     val serverPort = 1080
-    println(args(0))
-    val db:TravelServerDatabase = new MySqlDatabase// = if (args.length < 0) new MySqlDatabase else new LocalDataBase
+    val db:TravelServerDatabase = if(args.length > 0) new LocalDataBase else new MySqlDatabase
 
     val communicator = new ServerCommunication(serverPort, new MessageHandler(db));
     println("Starting server on port " + serverPort);
