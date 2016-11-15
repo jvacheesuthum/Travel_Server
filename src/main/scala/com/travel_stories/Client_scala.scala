@@ -10,11 +10,11 @@ import org.java_websocket.handshake.ServerHandshake
   */
 class Client_scala(serverURI: String) extends WebSocketClient(new URI(serverURI)){
 
-  override def onError(e: Exception): Unit = println("Fail")
+  override def onError(e: Exception): Unit = println("Client on error!")
 
-  override def onMessage(s: String): Unit = println(s)
+  override def onMessage(message: String): Unit = println("message received: " + message)
 
-  override def onClose(i: Int, s: String, b: Boolean): Unit = {}
+  override def onClose(i: Int, s: String, b: Boolean): Unit = println(System.out.println("Client closed"))
 
-  override def onOpen(serverHandshake: ServerHandshake): Unit = {}
+  override def onOpen(serverHandshake: ServerHandshake): Unit = println("Client open")
 }

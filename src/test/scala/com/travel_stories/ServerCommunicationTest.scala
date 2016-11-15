@@ -1,22 +1,26 @@
 package com.travel_stories
 
-import com.travel_stories.database.MySqlDatabase
+import com.travel_stories.database.LocalDataBase
+import com.travel_stories.tagobjects.UnitTest
+
 
 /**
   * Created by jam414 on 28/10/16.
   */
-class ServerCommunicationTest extends UnitSpec{
+class ServerCommunicationTest extends UnitSpec {
 
   def CommFixture =
     new {
       val serverPort = 1080
-      val communicator = new ServerCommunication(serverPort, new MessageHandler(new MySqlDatabase))
-      val client = new Client_scala("http://localhost:" + serverPort);
+      val communicator = new ServerCommunication(serverPort, new MessageHandler(new LocalDataBase))
+      val client = new Client_scala("ws://localhost:" + serverPort)
     }
 
-  "a client" should "recieve the message they send" taggedAs(UnitTest) ignore {
+  "a client" should "recieve the message they send" taggedAs(UnitTest) in {
     val comm = CommFixture
-    val message = "Hi"
+    //British Museum, Thursbitch? Inchrory
+    val message = "timeline_address:-0.1269566, 51.5194133@-2.004155, 53.271150@-3.357819, 57.155797"
+
     comm.communicator.start()
     comm.client.connectBlocking()
     comm.client.send(message)
@@ -24,15 +28,4 @@ class ServerCommunicationTest extends UnitSpec{
     comm.client.closeBlocking()
     //comm.client.getLastMessage shouldBe message
   }
-
-
-/*
-  def main(args: Array[String]): Unit = {
-
-
-    client.connectBlocking();
-    client.send("HI");
-    client.closeBlocking();
-    println("OKAY?");
-    */
 }

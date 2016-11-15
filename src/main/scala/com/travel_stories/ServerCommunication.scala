@@ -23,7 +23,7 @@ class ServerCommunication(listenPort:Int, handler: MessageHandler ) extends WebS
 
   override def onMessage(conn: WebSocket, message: String) {
 
-    val s:String = handler.onMessage (new SocketNetworkConnection(conn), message)
+    val s:String = handler.onMessage (message)
     new SocketNetworkConnection(conn).send(s)
 
   }

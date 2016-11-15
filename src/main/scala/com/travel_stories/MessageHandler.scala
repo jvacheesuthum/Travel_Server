@@ -10,7 +10,7 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
   val placeFinder = new PlaceFinder(db,"AIzaSyDydfFUeuoJYb4inez08Apg4XDVTVPQDqM")
 
 
-  def onMessage(socketConn:SocketNetworkConnection, message:String):String = {
+  def onMessage(message:String):String = {
 
     var values = Array[String]()
     val request = message.split(":")
@@ -19,20 +19,15 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
     values =
       request(0) match {
       case "timeline_address" => nameRequest(request(1))
-      case _ => Array("hi","hiya","Default")
+      case _ => Array("You Didn't Send ANything Worthwhile")
 
       }
 
       values.mkString(",")
 
-    //socketConn.send("timeline_address" + values.mkString(","))
-
-
-
   }
 
   def nameRequest(loc: String): Array[String] = {
-    println("|Get Here")
     val locationList = loc.split("@")
     var l = List[String]()
 

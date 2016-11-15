@@ -1,45 +1,78 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.travel-stories</groupId>
-  <artifactId>TravelServer</artifactId>
-  <version>1.0.0</version>
-  <name>${project.artifactId}</name>
-  <description>Server for the Travel-Stories Project</description>
-  <inceptionYear>2016</inceptionYear>
-  <licenses>
-    <license>
-      <name>My License</name>
-      <url>http://....</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <properties>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <encoding>UTF-8</encoding>
-    <scala.version>2.11.8</scala.version>
-    <scala.compat.version>2.11</scala.compat.version>
-  </properties>
+	<groupId>com.travel-stories</groupId>
+	<artifactId>TravelServer</artifactId>
+	<version>1.0.0</version>
+	<packaging>jar</packaging>
 
-  <dependencies>
-    <!-- https://mvnrepository.com/artifact/net.alchim31.maven/scala-maven-plugin -->
-    <dependency>
-      <groupId>net.alchim31.maven</groupId>
-      <artifactId>scala-maven-plugin</artifactId>
-      <version>3.2.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.scala-lang</groupId>
-      <artifactId>scala-library</artifactId>
-      <version>${scala.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.google.code.gson</groupId>
-      <artifactId>gson</artifactId>
-      <version>2.8.0</version>
-    </dependency>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+		<scala.version>2.11.8</scala.version>
+		<scala.version.tools>2.11</scala.version.tools>
+	</properties>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>net.alchim31.maven</groupId>
+				<artifactId>scala-maven-plugin</artifactId>
+				<version>3.2.0</version>
+				<executions>
+					<execution>
+						<!-- this is so we don't end with a compile error in maven-compiler-plugin -->
+						<phase>process-sources</phase>
+						<goals>
+							<goal>compile</goal>
+							<goal>testCompile</goal>
+						</goals>
+						<configuration>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.scala-lang</groupId>
+			<artifactId>scala-library</artifactId>
+			<version>${scala.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.scalacheck</groupId>
+			<artifactId>scalacheck_${scala.version.tools}</artifactId>
+			<version>1.11.4</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.scalatest</groupId>
+			<artifactId>scalatest_${scala.version.tools}</artifactId>
+			<version>2.2.0</version>
+			<scope>test</scope>
+		</dependency>
+    <dependency>
+      <groupId>org.scalactic</groupId>
+      <artifactId>scalactic_${scala.version.tools}</artifactId>
+      <version>3.0.0</version>
+    </dependency>
     <!--JavaSqlConnector-->
     <dependency>
       <groupId>mysql</groupId>
@@ -52,215 +85,10 @@
       <artifactId>Java-WebSocket</artifactId>
       <version>1.3.0</version>
     </dependency>
-    <!-- Test -->
-    <!-- <dependency> -->
-      <!--   <groupId>junit</groupId> -->
-      <!--   <artifactId>junit</artifactId> -->
-      <!--   <version>4.11</version> -->
-      <!--   <scope>test</scope> -->
-      <!-- </dependency> -->
-    <!-- <dependency> -->
-      <!--   <groupId>org.specs2</groupId> -->
-      <!--   <artifactId>specs2-core_${scala.compat.version}</artifactId> -->
-      <!--   <version>2.4.16</version> -->
-      <!--   <scope>test</scope> -->
-      <!-- </dependency> -->
-    <!-- tests from online (second one was already here but an older version)-->
     <dependency>
-      <groupId>org.scalactic</groupId>
-      <artifactId>scalactic_${scala.compat.version}</artifactId>
-      <version>3.0.0</version>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.8.0</version>
     </dependency>
-    <dependency>
-      <groupId>org.scalatest</groupId>
-      <artifactId>scalatest_${scala.compat.version}</artifactId>
-      <version>3.0.0</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.scalastyle</groupId>
-      <artifactId>scalastyle-maven-plugin</artifactId>
-      <version>0.8.0</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/org.scala-tools/maven-scala-plugin -->
-    <dependency>
-      <groupId>org.scala-tools</groupId>
-      <artifactId>maven-scala-plugin</artifactId>
-      <version>2.15.2</version>
-    </dependency>
-
-  </dependencies>
-  <repositories>
-    <repository>
-      <id>artima</id>
-      <name>Artima Maven Repository</name>
-      <url>http://repo.artima.com/releases</url>
-    </repository>
-  </repositories>
-
-  <build>
-    <sourceDirectory>src/main/scala</sourceDirectory>
-    <testSourceDirectory>src/test/scala</testSourceDirectory>
-    <plugins>
-      <!-- see http://davidb.github.com/scala-maven-plugin -->
-      <!--added some stuff dorm scalatest.org lets see if it works -->
-
-      <plugin>
-        <groupId>net.alchim31.maven</groupId>
-        <artifactId>scala-maven-plugin</artifactId>
-        <version>3.2.2</version>
-        <configuration>
-          <compilerPlugins>
-            <!-- <compilerPlugin> -->
-              <!--   <groupId>com.artima.supersafe</groupId> -->
-              <!--   <artifactId>supersafe_2.11.7</artifactId> -->
-              <!--   <version>1.1.0-RC7</version> -->
-              <!-- </compilerPlugin> -->
-          </compilerPlugins>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>compile</goal>
-              <goal>testCompile</goal>
-            </goals>
-            <configuration>
-              <!-- <recompileMode>incremental</recompileMode> -->
-              <args>
-                <!--<arg>-make:transitive</arg>-->
-                <!-- <arg>-optimise</arg> -->
-                <!-- <arg>-deprecation</arg> -->
-                <arg>-dependencyfile</arg>
-                <arg>${project.build.directory}/.scala_dependencies</arg>
-              </args>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <configuration>
-          <descriptorRefs>
-            <descriptorRef>jar-with-dependencies</descriptorRef>
-          </descriptorRefs>
-          <archive>
-            <manifest>
-              <mainClass>com.travel_stories.TravelServer</mainClass>
-            </manifest>
-          </archive>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <!--Disable SureFire-->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.7</version>
-        <configuration>
-          <skipTests>true</skipTests>
-        </configuration>
-      </plugin>
-      <!--Can Use Failsafe properly with scalatest-maven-plugin-->
-      <!-- <plugin> -->
-        <!--   <groupId>org.apache.maven.plugins</groupId> -->
-        <!--   <artifactId>maven-failsafe-plugin</artifactId> -->
-        <!--   <version>2.13</version> -->
-        <!--   <executions> -->
-          <!--     <execution> -->
-            <!--       <id>integration-test</id> -->
-            <!--       <goals> -->
-              <!--         <goal>integration-test</goal> -->
-              <!--       </goals> -->
-            <!--     </execution> -->
-          <!--     <execution> -->
-            <!--       <id>verify</id> -->
-            <!--       <goals> -->
-              <!--         <goal>verify</goal> -->
-              <!--       </goals> -->
-            <!--     </execution> -->
-          <!--   </executions> -->
-        <!-- </plugin> -->
-      <!--enable scalatest-->
-      <plugin>
-        <groupId>org.scalatest</groupId>
-        <artifactId>scalatest-maven-plugin</artifactId>
-        <version>1.0</version>
-        <configuration>
-          <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
-          <junitxml>.</junitxml>
-          <filereports>WDF TestSuite.txt</filereports>
-        </configuration>
-        <executions>
-          <execution>
-            <id>test</id>
-            <goals>
-              <goal>test</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.scalastyle</groupId>
-        <artifactId>scalastyle-maven-plugin</artifactId>
-        <version>0.8.0</version>
-        <configuration>
-          <verbose>false</verbose>
-          <failOnViolation>true</failOnViolation>
-          <includeTestSourceDirectory>true</includeTestSourceDirectory>
-          <failOnWarning>false</failOnWarning>
-          <sourceDirectory>${basedir}/src/main/scala</sourceDirectory>
-          <testSourceDirectory>${basedir}/src/test/scala</testSourceDirectory>
-          <configLocation>${basedir}/lib/scalastyle_config.xml</configLocation>
-          <outputFile>${project.basedir}/scalastyle-output.xml</outputFile>
-          <outputEncoding>UTF-8</outputEncoding>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <!-- <plugin> -->
-        <!-- <groupId>org.apache.maven.plugins</groupId> -->
-        <!-- <artifactId>maven-surefire-plugin</artifactId> -->
-        <!-- <version>2.18.1</version> -->
-        <!-- <configuration> -->
-          <!-- <useFile>false</useFile> -->
-          <!-- <disableXmlReport>true</disableXmlReport> -->
-          <!-- <-If you have classpath issue like NoDefClassError,... -> -->
-          <!-- <-useManifestOnlyJar>false</useManifestOnlyJar -> -->
-        <!-- <includes> -->
-          <!-- <include>**/*Test.*</include> -->
-          <!-- <include>**/*Suite.*</include> -->
-          <!-- </includes> -->
-        <!-- </configuration> -->
-      <!-- </plugin> -->
-  </plugins>
-</build>
-<reporting>
-  <plugins>
-    <plugin>
-      <groupId>org.scala-tools</groupId>
-      <artifactId>maven-scala-plugin</artifactId>
-      <version>2.15.2</version>
-    </plugin>
-  </plugins>
-</reporting>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </project>
+	</dependencies>
+</project>
