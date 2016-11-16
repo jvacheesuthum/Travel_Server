@@ -18,7 +18,7 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
     println(request(1))
     val values:String =
       request(0) match {
-      case "timeline_address" => "timeline_address:" + nameRequest(request(1)).mkString(",")
+      case "timeline_address" => "timeline_address:" + nameRequest(request(1)).mkString("@")
 
       case _ => "You Didn't Send Anything Worthwhile"
 
