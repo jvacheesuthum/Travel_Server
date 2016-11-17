@@ -67,7 +67,7 @@ class MySqlDatabase extends TravelServerDatabase {
       // add entry
       sb = new StringBuilder
       sb.append("INSERT INTO `geonames` (pkey, longitude, latitude, name, popularity) VALUES (")
-      sb.append(entry(key, 1) + ", ").append(longitude + ", ").append(latitude + ", ").append(name + ", ").append("1 );")
+      sb.append(entry(key, 1) + ", ").append(longitude + ", ").append(latitude + ", '").append(name + "', ").append("1 );")
       query = sb.toString
       dbConnection.executeQuery(query);
       
@@ -80,8 +80,8 @@ class MySqlDatabase extends TravelServerDatabase {
         //max number of entries at a location is 99, so replace the last entry
         sb = new StringBuilder
         sb.append("UPDATE `geonames` SET ")
-        sb.append("longitude="+longitude).append(", latitude=" +latitude).append(", name=" + name)
-        sb.append(" WHERE pkey=").append(entry(key, 99)).append(";")
+        sb.append("longitude="+longitude).append(", latitude=" +latitude).append(", name='" + name)
+        sb.append("' WHERE pkey=").append(entry(key, 99)).append(";")
         query = sb.toString
          dbConnection.executeQuery(query);
       } else {
@@ -94,7 +94,7 @@ class MySqlDatabase extends TravelServerDatabase {
         // add entry
         sb = new StringBuilder
         sb.append("INSERT INTO `geonames` (pkey, longitude, latitude, name, popularity) VALUES (")
-        sb.append(entry(key, entries+1) + ", ").append(longitude + ", ").append(latitude + ", ").append(name + ", ").append("1 );")
+        sb.append(entry(key, entries+1) + ", ").append(longitude + ", ").append(latitude + ", '").append(name + "', ").append("1 );")
         query = sb.toString
         dbConnection.executeQuery(query);
         
