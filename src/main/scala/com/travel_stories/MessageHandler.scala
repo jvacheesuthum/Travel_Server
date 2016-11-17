@@ -1,7 +1,6 @@
 package com.travel_stories
 
 import com.travel_stories.database.TravelServerDatabase
-import com.travel_stories.database.ServerTimeLineEntry
 import com.google.gson.Gson
 
 /**

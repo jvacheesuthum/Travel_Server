@@ -1,4 +1,4 @@
-package com.travel_stories.database;
+package com.travel_stories;
 
 import java.io.Serializable;
 import java.math.BigInteger;

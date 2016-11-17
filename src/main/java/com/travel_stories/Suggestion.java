@@ -1,12 +1,11 @@
 package com.travel_stories;
 
 import java.util.ArrayList;
-import java.sql.Timestamp;
 import java.util.List;
 
 import com.google.gson.Gson;
 import com.travel_stories.database.Place;
-import com.travel_stories.database.ServerTimeLineEntry;
+import com.travel_stories.ServerTimeLineEntry;
 import com.travel_stories.database.TravelServerDatabase;
 
 import scala.math.BigInt;
