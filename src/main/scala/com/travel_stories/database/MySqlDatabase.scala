@@ -61,7 +61,7 @@ class MySqlDatabase extends TravelServerDatabase {
       // location does not exist, create new index first
       sb = new StringBuilder
       sb.append("INSERT INTO `geonames` (pkey, longitude, latitude, name, popularity) VALUES (")
-      sb.append(index(key) + ", ").append(longitude + ", ").append(latitude + ", ").append("`index`, ").append("1 );")
+      sb.append(index(key) + ", ").append(longitude + ", ").append(latitude + ", ").append("'index', ").append("1 );")
       query = sb.toString
       dbConnection.executeQuery(query);
       // add entry
