@@ -1,6 +1,7 @@
 package com.travel_stories
 
 import com.travel_stories.database.TravelServerDatabase
+import com.travel_stories.database.ServerTimeLineEntry
 import com.google.gson.Gson
 
 /**
@@ -10,6 +11,7 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
 
   val placeFinder = new PlaceFinder(db,"AIzaSyDydfFUeuoJYb4inez08Apg4XDVTVPQDqM")
   val suggestion = new Suggestion(db)
+  val gson:Gson = new Gson()
 
 
   def onMessage(message:String):String = {
@@ -21,7 +23,8 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
     val values:String =
       request(0) match {
       case "timeline_address" => "timeline_address:" + nameRequest(request(1)).mkString("@")
-      case "nearby_place" => "nearby_place:" + nearbyPlace(request(1))
+      case "nearby_place" => "nearby_place:" + nearbyPlace(request.tail.mkString(":"))
+      case "timeline_share" => "timeline_share: " + submitTimeline(request.tail.mkString(":"))
       case _ => "You Didn't Send Anything Worthwhile"
 
       }
@@ -45,8 +48,14 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
   def nearbyPlace(input:String): String = {
     val s = input.split(",")
     val places = suggestion.placeSuggestions(s(1).toDouble, s(0).toDouble, s(2).toInt)
-    val gson:Gson = new Gson();
+    
     return gson.toJson(places)
+  }
+  
+  def submitTimeline(input:String): String= {
+    val s = input.split("@")
+    suggestion.addTimeLine(s(0).toInt, s(1))
+    "OK"
   }
 
 

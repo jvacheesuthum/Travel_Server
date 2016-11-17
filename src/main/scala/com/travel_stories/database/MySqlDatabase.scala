@@ -1,5 +1,7 @@
 package com.travel_stories.database
 
+import java.time.Instant
+
 /**
   * Created by jam414 on 24/10/16.
   */
@@ -165,5 +167,16 @@ class MySqlDatabase extends TravelServerDatabase {
       return suggestions
     }
   }
+  
+  def storeTimeLineEntry(location:BigInt, start:String, end:String, user:Int):Unit ={
+    val time:Instant = Instant.parse(start)
+    val key:BigInt = 1000000000* user + time.getEpochSecond
+    val sb = new StringBuilder
+    sb.append("INSERT INTO `TimeLineEntries` (pkey, location, start, end, user) VALUES (")
+    sb.append(key + ", ").append(`location` + ", ").append(start + ", ").append(end + ", ").append(user + ");")
+    val query = sb.toString
+    dbConnection.executeQuery(query);
+  }
+
   
 }

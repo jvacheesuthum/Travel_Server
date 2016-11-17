@@ -1,10 +1,15 @@
 package com.travel_stories;
 
 import java.util.ArrayList;
+import java.sql.Timestamp;
 import java.util.List;
 
+import com.google.gson.Gson;
 import com.travel_stories.database.Place;
+import com.travel_stories.database.ServerTimeLineEntry;
 import com.travel_stories.database.TravelServerDatabase;
+
+import scala.math.BigInt;
 
 public class Suggestion {
 	
@@ -28,5 +33,13 @@ public class Suggestion {
 			return result;
 		}
 	}
-
+	
+	public void addTimeLine(int user, String json) {
+		Gson gson = new Gson();
+		ServerTimeLineEntry[] entries = gson.fromJson(json, ServerTimeLineEntry[].class);
+		for (ServerTimeLineEntry entry : entries) {
+			db.storeTimeLineEntry(BigInt.javaBigInteger2bigInt(entry.location), entry.start, entry.end, user);
+		}
+	}
+	
 }

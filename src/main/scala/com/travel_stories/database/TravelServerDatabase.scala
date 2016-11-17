@@ -3,6 +3,8 @@ package com.travel_stories.database
 /**
   * Created by jam414 on 24/10/16.
   */
+import java.sql.Timestamp
+
 trait TravelServerDatabase {
 
   @throws(classOf[LocationNotFoundException])
@@ -12,6 +14,8 @@ trait TravelServerDatabase {
   
   @throws(classOf[LocationNotFoundException])
   def nearbyPlace(longitude: Double, latitude: Double, user:Int):Array[Place]
+  
+  def storeTimeLineEntry(location:BigInt, start:String, end:String, user:Int):Unit
 
 
 
