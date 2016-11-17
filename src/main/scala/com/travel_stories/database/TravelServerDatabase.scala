@@ -6,9 +6,12 @@ package com.travel_stories.database
 trait TravelServerDatabase {
 
   @throws(classOf[LocationNotFoundException])
-  def getName(longitude:Double, latitude:Double):String
+  def getName(longitude:Double, latitude:Double):Place
   
   def storeName(name:String, longitude:Double, latitude:Double):Unit
+  
+  @throws(classOf[LocationNotFoundException])
+  def nearbyPlace(longitude: Double, latitude: Double, user:Int):Array[Place]
 
 
 

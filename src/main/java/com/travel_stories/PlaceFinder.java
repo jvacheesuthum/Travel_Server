@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import com.travel_stories.database.LocationNotFoundException;
+import com.travel_stories.database.Place;
 import com.travel_stories.database.TravelServerDatabase;
 
 public class PlaceFinder {
@@ -38,7 +39,8 @@ public class PlaceFinder {
         try {
             //try to find from stored data
         	if (verbose) System.out.println("searching in db");
-            return db.getName(longitude, latitude);
+            Place p = db.getName(longitude, latitude);
+            return p.getName();
         } catch (LocationNotFoundException e) {
         	if (verbose) System.out.println("not found in db");
             // if data is not found in db, search google maps

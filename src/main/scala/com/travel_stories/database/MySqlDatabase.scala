@@ -21,12 +21,12 @@ class MySqlDatabase extends TravelServerDatabase {
   val dbConnection = new DatabaseConnection()
   dbConnection.connect
 
-  override def getName(longitude: Double, latitude: Double): String = {
+  override def getName(longitude: Double, latitude: Double): Place = {
     
     val pkey:BigInt = mostPopular(toHash(longitude, latitude))
     
     val sb = new StringBuilder
-    sb.append("SELECT `name` FROM `geonames` WHERE `pkey` = ")
+    sb.append("SELECT * FROM `geonames` WHERE `pkey` = ")
     sb.append(pkey)
     sb.append(";")
 
@@ -36,8 +36,12 @@ class MySqlDatabase extends TravelServerDatabase {
 
     if (result.isEmpty) throw LocationNotFoundException("Location not in db");
     else{
-      //gross code
-      result.head("name").asInstanceOf[String];
+      //gross code      
+      val name = result.head("name").asInstanceOf[String]
+      var p = new Place(pkey, name, latitude, longitude)
+      p.setPopularity(result.head("popularity").asInstanceOf[Int]);
+      return p
+      
     }
   }
   
@@ -130,5 +134,36 @@ class MySqlDatabase extends TravelServerDatabase {
     assert(rank < 100)
     return key *100 + rank
    }
+  
+  def nearbyPlace(longitude: Double, latitude: Double, user:Int):Array[Place] ={
+   
+    val sb = new StringBuilder
+    sb.append("SELECT * FROM geonames WHERE ABS(longitude-")
+    sb.append(longitude)
+    sb.append(") < 0.5 AND ABS(latitude-")
+    sb.append(latitude)
+    sb.append(") < 0.5 AND pkey NOT IN (SELECT location FROM TimeLineEntries WHERE user =")
+    sb.append(user)
+    sb.append(") SORT BY popularity DESC;")
+
+    val query = sb.toString
+
+    val result = dbConnection.retreiveQuery(query)
+
+    if (result.isEmpty) throw LocationNotFoundException("No suggestions Found");
+    else{
+      //gross code      
+      var it = result.iterator
+      var suggestions = new Array[Place](10)
+      for (i <- 0 to 9) {
+        if (it.hasNext) {
+          var res = it.next()
+          suggestions.update(i, new Place(res.get("pkey").asInstanceOf[BigInt], res.get("name").asInstanceOf[String], 
+              res.get("latitude").asInstanceOf[Double], res.get("longitude").asInstanceOf[Double]))
+        }
+      }
+      return suggestions
+    }
+  }
   
 }
