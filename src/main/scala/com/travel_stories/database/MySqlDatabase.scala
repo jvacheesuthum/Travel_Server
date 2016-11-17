@@ -38,10 +38,14 @@ class MySqlDatabase extends TravelServerDatabase {
 
     if (result.isEmpty) throw LocationNotFoundException("Location not in db");
     else{
+      println("found sth in db")
       //gross code      
       val name = result.head("name").asInstanceOf[String]
+      println(name)
+      println(result.head("popularity"))
       var p = new Place(pkey, name, latitude, longitude)
-      p.setPopularity(result.head("popularity").asInstanceOf[Int]);
+      p.setPopularity(Integer.parseUnsignedInt(result.head("popularity").toString()));
+      println("finish db")
       return p
       
     }

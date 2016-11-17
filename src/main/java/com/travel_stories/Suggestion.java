@@ -34,9 +34,12 @@ public class Suggestion {
 	}
 	
 	public void addTimeLine(int user, String json) {
+		System.out.println("in suggestion: addtimeline");
 		Gson gson = new Gson();
 		ServerTimeLineEntry[] entries = gson.fromJson(json, ServerTimeLineEntry[].class);
+		System.out.println("gson parse survived");
 		for (ServerTimeLineEntry entry : entries) {
+			System.out.println("Entry: "+ entry.location.toString() + entry.start + entry.end);
 			db.storeTimeLineEntry(BigInt.javaBigInteger2bigInt(entry.location), entry.start, entry.end, user);
 		}
 	}
