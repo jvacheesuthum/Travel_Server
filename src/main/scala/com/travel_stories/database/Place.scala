@@ -11,7 +11,6 @@ class Place(key:BigInt, name:String, latitude:Double, longitude:Double){
   def getKey():BigInt = key
   def getLatitude():Double = latitude
   def getLongitude():Double = longitude
-  def getPopularity():Int = popularity
-  
+  def getPopularity():Int = popularity  
 
 }
