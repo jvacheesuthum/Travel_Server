@@ -1,5 +1,9 @@
 package com.travel_stories
 
+import java.io.ByteArrayInputStream
+import java.nio.ByteBuffer
+import javax.imageio.ImageIO
+
 import com.travel_stories.database.TravelServerDatabase
 import com.google.gson.Gson
 
@@ -30,6 +34,12 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
 
     values
 
+  }
+  def onMessage(message:ByteBuffer):Unit = {
+    val t = new TravelPhotos("images/testa.png")
+    val in = new ByteArrayInputStream(message.array())
+    val bi = ImageIO.read(in)
+    t.upload(bi)
   }
 
   def nameRequest(loc: String): Array[String] = {
