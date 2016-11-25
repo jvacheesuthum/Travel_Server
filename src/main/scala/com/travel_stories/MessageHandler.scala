@@ -15,19 +15,19 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
   val placeFinder = new PlaceFinder(db,"AIzaSyDydfFUeuoJYb4inez08Apg4XDVTVPQDqM")
   val suggestion = new Suggestion(db)
   val gson:Gson = new Gson()
+  val SIZE_OF_INT = 4
 
 
   def onMessage(message:String):String = {
 
     //var values:String;
     val request = message.split(":")
-    println(request(0))
-    println(request(1))
     val values:String =
       request(0) match {
       case "timeline_address" => "timeline_address:" + nameRequest(request(1)).mkString("@")
       case "nearby_place" => "nearby_place:" + nearbyPlace(request.tail.mkString(":"))
       case "timeline_share" => "timeline_share: " + submitTimeline(request.tail.mkString(":"))
+      case "Login" => "Jimmys Finished" //Do Databse stuff
       case _ => "A new failure message"
 
       }
@@ -36,8 +36,25 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
 
   }
   def onMessage(message:ByteBuffer):Unit = {
-    val t = new TravelPhotos("images/testa.png")
-    val in = new ByteArrayInputStream(message.array())
+
+
+    val sizeOfName = message.getInt(0)
+    val sizeOfInfoByte = sizeOfName + SIZE_OF_INT
+    val name = new Array[Byte](sizeOfInfoByte)
+    val getName = message.get(name)
+
+    val image = new Array[Byte](message.remaining())
+    message.get(image)
+    image.drop(sizeOfInfoByte)
+
+
+    val in = new ByteArrayInputStream(image)
+
+
+    val st = new String(name.drop(SIZE_OF_INT), "UTF-8")
+
+    val t = new TravelPhotos("images/" + st + ".png")
+
     val bi = ImageIO.read(in)
     t.upload(bi)
   }

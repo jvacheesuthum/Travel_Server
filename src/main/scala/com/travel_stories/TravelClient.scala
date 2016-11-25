@@ -31,17 +31,24 @@ object TravelClient {
 
     var img:BufferedImage = null
 
+    val user = "Jimmy"
+    val i = user.length
+    val bi = ByteBuffer.allocate(4).putInt(i).array()
+    val buser = user.getBytes("UTF-8")
+
+
     try {
       img = ImageIO.read(new File("resources/test/images/Lenna.png"))
       //travelPhoto.upload(img)
       val ba = new ByteArrayOutputStream()
+      ba.write(bi)
+      ba.write(buser)
       ImageIO.write(img, "png", ba)
       ba.flush()
       val imgbytest = ba.toByteArray
 
       client.send(test)
       client.send(imgbytest)
-      println("WTF")
 
     } catch
       {
