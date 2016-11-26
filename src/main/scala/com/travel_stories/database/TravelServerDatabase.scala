@@ -3,7 +3,7 @@ package com.travel_stories.database
 /**
   * Created by jam414 on 24/10/16.
   */
-import java.sql.Timestamp
+import java.util.GregorianCalendar;
 
 trait TravelServerDatabase {
 
@@ -15,7 +15,7 @@ trait TravelServerDatabase {
   @throws(classOf[LocationNotFoundException])
   def nearbyPlace(longitude: Double, latitude: Double, user:Int):Array[Place]
   
-  def storeTimeLineEntry(location:BigInt, start:String, end:String, user:Int):Unit
+  def storeTimeLineEntry(location:BigInt, start:GregorianCalendar, end:GregorianCalendar, user:Int):Unit
 
 
 

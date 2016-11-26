@@ -1,6 +1,6 @@
 package com.travel_stories.database
 
-import java.time.Instant
+import java.util.GregorianCalendar;
 
 /**
   * Created by jam414 on 24/10/16.
@@ -172,12 +172,11 @@ class MySqlDatabase extends TravelServerDatabase {
     }
   }
   
-  def storeTimeLineEntry(location:BigInt, start:String, end:String, user:Int):Unit ={
-    val time:Instant = Instant.parse(start)
-    val key:BigInt = 1000000000* user + time.getEpochSecond
+  def storeTimeLineEntry(location:BigInt, start:GregorianCalendar, end:GregorianCalendar, user:Int):Unit ={
+    val key:BigInt = 1000000000* user + start.getTimeInMillis;
     val sb = new StringBuilder
     sb.append("INSERT INTO `TimeLineEntries` (pkey, location, start, end, user) VALUES (")
-    sb.append(key + ", ").append(`location` + ", ").append(start + ", ").append(end + ", ").append(user + ");")
+    sb.append(key + ", ").append(`location` + ", ").append(start.getTimeInMillis + ", ").append(end.getTimeInMillis + ", ").append(user + ");")
     val query = sb.toString
     dbConnection.executeQuery(query);
   }

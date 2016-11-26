@@ -1,5 +1,6 @@
 package com.travel_stories.database
 
+import java.util.GregorianCalendar;
 /**
   * Created by Gengar on 03/11/2016.
   */
@@ -16,6 +17,6 @@ class LocalDataBase extends TravelServerDatabase{
   override def nearbyPlace(longitude: Double, latitude: Double, user:Int):Array[Place] = null
 
 
-  override def storeTimeLineEntry(location:BigInt, start:String, end:String, user:Int):Unit =null
+  override def storeTimeLineEntry(location:BigInt, start:GregorianCalendar, end:GregorianCalendar, user:Int):Unit =null
 
 }
