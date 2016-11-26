@@ -41,6 +41,6 @@ build.log
 build.log
 
 # stored images
-resources*
-images*
+#resources*
+#images*
 
