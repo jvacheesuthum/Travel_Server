@@ -39,8 +39,8 @@ public class Suggestion {
 		ServerTimeLineEntry[] entries = gson.fromJson(json, ServerTimeLineEntry[].class);
 		System.out.println("gson parse survived");
 		for (ServerTimeLineEntry entry : entries) {
-			System.out.println("Entry: "+ entry.location.toString() + entry.start + entry.end);
-			db.storeTimeLineEntry(BigInt.javaBigInteger2bigInt(entry.location), entry.start, entry.end, user);
+			System.out.println("Entry: "+ entry.location.toString() + entry.start.toString() + entry.end.toString());
+			db.storeTimeLineEntry(BigInt.javaBigInteger2bigInt(entry.location), entry.start.toString(), entry.end.toString(), user);
 		}
 	}
 	
