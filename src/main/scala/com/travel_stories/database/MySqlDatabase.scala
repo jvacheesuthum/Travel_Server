@@ -173,7 +173,7 @@ class MySqlDatabase extends TravelServerDatabase {
   }
   
   def storeTimeLineEntry(location:BigInt, start:GregorianCalendar, end:GregorianCalendar, user:Int):Unit ={
-    val key:BigInt = 1000000000* user + start.getTimeInMillis;
+    val key:BigInt = 100000000* user + start.getTimeInMillis/100000;
     val sb = new StringBuilder
     sb.append("INSERT INTO `TimeLineEntries` (pkey, location, start, end, user) VALUES (")
     sb.append(key + ", ").append(`location` + ", ").append(start.getTimeInMillis/1000 + ", ").append(end.getTimeInMillis/1000 + ", ").append(user + ");")
