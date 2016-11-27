@@ -150,7 +150,7 @@ class MySqlDatabase extends TravelServerDatabase {
     sb.append(latitude)
     sb.append(") < 0.5 AND pkey NOT IN (SELECT location FROM TimeLineEntries WHERE user =")
     sb.append(user)
-    sb.append(") SORT BY popularity DESC;")
+    sb.append(") ORDER BY popularity DESC;")
 
     val query = sb.toString
 
