@@ -17,6 +17,6 @@ trait TravelServerDatabase {
   
   def storeTimeLineEntry(location:BigInt, start:GregorianCalendar, end:GregorianCalendar, user:Int):Unit
 
-
+  def storeTrip(user:Int, name:String, start:GregorianCalendar, end:GregorianCalendar):Unit
 
 }

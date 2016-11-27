@@ -38,6 +38,9 @@ public class Suggestion {
 		Gson gson = new Gson();
 		ServerTimeLineEntry[] entries = gson.fromJson(json, ServerTimeLineEntry[].class);
 		System.out.println("gson parse survived");
+		if (entries.length > 0) {
+			db.storeTrip(user, "default name", entries[0].start, entries[entries.length-1].end);
+		}
 		for (ServerTimeLineEntry entry : entries) {
 			System.out.println("Entry: "+ entry.location.toString() + entry.start.getTimeInMillis() + entry.end.getTimeInMillis());
 			db.storeTimeLineEntry(BigInt.javaBigInteger2bigInt(entry.location), entry.start, entry.end, user);

@@ -1,6 +1,8 @@
 package com.travel_stories.database
 
 import java.util.GregorianCalendar;
+import com.travel_stories.ServerTimeLineEntry
+import scala.collection.mutable.ListBuffer
 
 /**
   * Created by jam414 on 24/10/16.
@@ -179,6 +181,59 @@ class MySqlDatabase extends TravelServerDatabase {
     sb.append(key + ", ").append(`location` + ", ").append(start.getTimeInMillis/1000 + ", ").append(end.getTimeInMillis/1000 + ", ").append(user + ");")
     val query = sb.toString
     dbConnection.executeQuery(query);
+  }
+  
+  def storeTrip(user:Int, name:String, start:GregorianCalendar, end:GregorianCalendar):Unit = {
+    val key:BigInt = 100000000* user + start.getTimeInMillis/100000;
+    val sb = new StringBuilder
+    sb.append("INSERT INTO `Trips` (pkey, user, tripname, start, end) VALUES (")
+    sb.append(key + ", ").append(user + ", ").append(name + ", ").append(start.getTimeInMillis/1000 + ", ").append(end.getTimeInMillis/1000 + ");")
+    val query = sb.toString
+    dbConnection.executeQuery(query);
+  }
+  
+  def getAllTrips(user:Int):List[List[ServerTimeLineEntry]] = {
+    val result = dbConnection.retreiveQuery("SELECT * FROM Trips WHERE user = " + user + " ORDER BY pkey;")
+    if (result.isEmpty) throw LocationNotFoundException("No timeline entries found for this trip");
+    else {
+      var trips = ListBuffer[List[ServerTimeLineEntry]]()
+      var it = result.iterator
+      while(it.hasNext) {
+        var res = it.next()
+        trips.+=(getTrip(user, res.get("start").asInstanceOf[Int], res.get("end").asInstanceOf[Int]))
+      }
+      return trips.toList
+    }
+  }
+  
+  def getTrip(user:Int, start:Long, end:Long):List[ServerTimeLineEntry] ={
+    val from:BigInt = 100000000* user + start/100;
+    val to:BigInt = 100000000* user + end/100;
+    val sb = new StringBuilder
+    sb.append("SELECT geonames.name, geonames.pkey AS location, TimeLineEntries.start, TimeLineEntries.end")
+    sb.append("FROM TimeLineEntries JOIN geonames ON TimeLineEntries.location = geonames.pkey WHERE TimeLineEntries.pkey >= ")
+    sb.append(from)
+    sb.append(" AND ")
+    sb.append("TimeLineEntries.pkey <= ")
+    sb.append(to)
+    sb.append(" ORDER BY TimeLineEntries.pkey;") 
+    val query = sb.toString
+
+    val result = dbConnection.retreiveQuery(query)
+    if (result.isEmpty) throw LocationNotFoundException("No timeline entries found for this trip");
+    else {
+      var trip = new ListBuffer[ServerTimeLineEntry]()
+      var it = result.iterator;
+      while(it.hasNext) {
+        var res = it.next()
+        val startcal:GregorianCalendar = new GregorianCalendar()
+        startcal.setTimeInMillis(res.get("start").asInstanceOf[Long]*1000)
+        val endcal:GregorianCalendar = new GregorianCalendar()
+        endcal.setTimeInMillis(res.get("end").asInstanceOf[Long]*1000)
+        trip.+=(new ServerTimeLineEntry(null, res.get("name").asInstanceOf[String], res.get("location").asInstanceOf[java.math.BigInteger], startcal, endcal));
+      }
+      return trip.toList;
+    }    
   }
 
   

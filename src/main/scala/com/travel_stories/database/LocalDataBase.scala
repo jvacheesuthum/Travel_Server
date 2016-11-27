@@ -18,5 +18,5 @@ class LocalDataBase extends TravelServerDatabase{
 
 
   override def storeTimeLineEntry(location:BigInt, start:GregorianCalendar, end:GregorianCalendar, user:Int):Unit =null
-
+  override def storeTrip(user:Int, name:String, start:GregorianCalendar, end:GregorianCalendar):Unit = null
 }
