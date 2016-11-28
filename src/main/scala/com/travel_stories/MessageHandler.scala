@@ -60,6 +60,7 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
   }
 
   def nameRequest(loc: String): Array[String] = {
+    print("message handler: NameReq")
     val locationList = loc.split("@")
     var l = List[String]()
 
@@ -72,6 +73,7 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
   }
   
   def nearbyPlace(input:String): String = {
+    print("message handler: NearbyPlace")
     val s = input.split(",")
     val places = suggestion.placeSuggestions(s(1).toDouble, s(0).toDouble, s(2).toInt)
     
@@ -79,6 +81,7 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
   }
   
   def submitTimeline(input:String): String= {
+    print("message handler: submit timeline")
     val s = input.split("@")
     val tripkey:BigInt = suggestion.addTimeLine(s(0).toInt, s(1))
     return tripkey.toString()

@@ -19,6 +19,7 @@ public class Suggestion {
     }
 	
 	public List<Place> placeSuggestions(double longitude, double latitude, int user) {
+		System.out.println("Suggestion: suggestions");
 		List<Place> result = new ArrayList<Place>();
 		try {
 			Place[] dbresponse = db.nearbyPlace(longitude, latitude, user);
