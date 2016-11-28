@@ -17,6 +17,6 @@ class LocalDataBase extends TravelServerDatabase{
   override def nearbyPlace(longitude: Double, latitude: Double, user:Int):Array[Place] = null
 
 
-  override def storeTimeLineEntry(location:BigInt, start:GregorianCalendar, end:GregorianCalendar, user:Int):Unit =null
-  override def storeTrip(user:Int, name:String, start:GregorianCalendar, end:GregorianCalendar):Unit = null
+  override def storeTimeLineEntry(location:BigInt, start:GregorianCalendar, end:GregorianCalendar, user:Int, trip:BigInt):Unit =null
+  override def storeTrip(user:Int, name:String, start:GregorianCalendar, end:GregorianCalendar):BigInt = null
 }

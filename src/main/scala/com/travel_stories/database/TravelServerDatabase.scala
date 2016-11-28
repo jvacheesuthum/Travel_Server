@@ -15,8 +15,8 @@ trait TravelServerDatabase {
   @throws(classOf[LocationNotFoundException])
   def nearbyPlace(longitude: Double, latitude: Double, user:Int):Array[Place]
   
-  def storeTimeLineEntry(location:BigInt, start:GregorianCalendar, end:GregorianCalendar, user:Int):Unit
+  def storeTimeLineEntry(location:BigInt, start:GregorianCalendar, end:GregorianCalendar, user:Int, trip:BigInt):Unit
 
-  def storeTrip(user:Int, name:String, start:GregorianCalendar, end:GregorianCalendar):Unit
+  def storeTrip(user:Int, name:String, start:GregorianCalendar, end:GregorianCalendar):BigInt
 
 }
