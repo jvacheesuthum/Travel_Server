@@ -75,7 +75,7 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
   def nearbyPlace(input:String): String = {
     print("message handler: NearbyPlace")
     val s = input.split(",")
-    val places = suggestion.placeSuggestions(s(1).toDouble, s(0).toDouble, s(2).toInt)
+    val places = suggestion.placeSuggestions(s(0).toDouble, s(1).toDouble, s(2).toInt)
     
     return gson.toJson(places)
   }
