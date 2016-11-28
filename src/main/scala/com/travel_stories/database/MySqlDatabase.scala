@@ -193,7 +193,7 @@ class MySqlDatabase extends TravelServerDatabase {
     val key:BigInt = 100000000* user + start.getTimeInMillis/100000;
     val sb = new StringBuilder
     sb.append("INSERT INTO `Trips` (pkey, user, tripname, start, end) VALUES (")
-    sb.append(key + ", ").append(user + ", ").append(name + ", ").append(start.getTimeInMillis/1000 + ", ").append(end.getTimeInMillis/1000 + ");")
+    sb.append(key + ", ").append(user + ", ").append("\'" + name + "\', ").append(start.getTimeInMillis/1000 + ", ").append(end.getTimeInMillis/1000 + ");")
     val query = sb.toString
     dbConnection.executeQuery(query);
     println("db stored trip: DONE")
