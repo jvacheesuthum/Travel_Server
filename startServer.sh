@@ -1,2 +1,2 @@
 #!/bin/sh
-nohup java -jar -Xmx256M target/TravelServer-1.0.0.jar
+nohup java -jar -Xmx256M target/TravelServer-1.0.0-jar-with-dependencies.jar
