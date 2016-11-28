@@ -80,8 +80,8 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
   
   def submitTimeline(input:String): String= {
     val s = input.split("@")
-    suggestion.addTimeLine(s(0).toInt, s(1))
-    "OK"
+    val tripkey:BigInt = suggestion.addTimeLine(s(0).toInt, s(1))
+    return tripkey.toString()
   }
 
 

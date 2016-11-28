@@ -33,7 +33,7 @@ public class Suggestion {
 		}
 	}
 	
-	public void addTimeLine(int user, String json) {
+	public BigInt addTimeLine(int user, String json) {
 		System.out.println("in suggestion: addtimeline");
 		Gson gson = new Gson();
 		ServerTimeLineEntry[] entries = gson.fromJson(json, ServerTimeLineEntry[].class);
@@ -44,8 +44,9 @@ public class Suggestion {
 				System.out.println("Entry: "+ entry.location.toString() + entry.start.getTimeInMillis() + entry.end.getTimeInMillis());
 				db.storeTimeLineEntry(BigInt.javaBigInteger2bigInt(entry.location), entry.start, entry.end, user, trip);
 			}
+			return trip;
 		}
-		
+		return null;
 	}
 	
 }
