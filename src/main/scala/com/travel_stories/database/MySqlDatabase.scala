@@ -174,22 +174,23 @@ class MySqlDatabase extends TravelServerDatabase {
     }
   }
   
-  def storeTimeLineEntry(location:BigInt, start:GregorianCalendar, end:GregorianCalendar, user:Int):Unit ={
+  def storeTimeLineEntry(location:BigInt, start:GregorianCalendar, end:GregorianCalendar, user:Int, trip:BigInt):Unit ={
     val key:BigInt = 100000000* user + start.getTimeInMillis/100000;
     val sb = new StringBuilder
-    sb.append("INSERT INTO `TimeLineEntries` (pkey, location, start, end, user) VALUES (")
-    sb.append(key + ", ").append(`location` + ", ").append(start.getTimeInMillis/1000 + ", ").append(end.getTimeInMillis/1000 + ", ").append(user + ");")
+    sb.append("INSERT INTO `TimeLineEntries` (pkey, location, start, end, user, trip) VALUES (")
+    sb.append(key + ", ").append(`location` + ", ").append(start.getTimeInMillis/1000 + ", ").append(end.getTimeInMillis/1000 + ", ").append(user + ", ").append(trip + ");")
     val query = sb.toString
     dbConnection.executeQuery(query);
   }
   
-  def storeTrip(user:Int, name:String, start:GregorianCalendar, end:GregorianCalendar):Unit = {
+  def storeTrip(user:Int, name:String, start:GregorianCalendar, end:GregorianCalendar):BigInt = {
     val key:BigInt = 100000000* user + start.getTimeInMillis/100000;
     val sb = new StringBuilder
     sb.append("INSERT INTO `Trips` (pkey, user, tripname, start, end) VALUES (")
     sb.append(key + ", ").append(user + ", ").append(name + ", ").append(start.getTimeInMillis/1000 + ", ").append(end.getTimeInMillis/1000 + ");")
     val query = sb.toString
     dbConnection.executeQuery(query);
+    return key;
   }
   
   def getAllTrips(user:Int):List[List[ServerTimeLineEntry]] = {
@@ -200,23 +201,18 @@ class MySqlDatabase extends TravelServerDatabase {
       var it = result.iterator
       while(it.hasNext) {
         var res = it.next()
-        trips.+=(getTrip(user, res.get("start").asInstanceOf[Int], res.get("end").asInstanceOf[Int]))
+        trips.+=(getTrip(res.get("pkey").asInstanceOf[BigInt]))
       }
       return trips.toList
     }
   }
   
-  def getTrip(user:Int, start:Long, end:Long):List[ServerTimeLineEntry] ={
-    val from:BigInt = 100000000* user + start/100;
-    val to:BigInt = 100000000* user + end/100;
+  def getTrip(trip:BigInt):List[ServerTimeLineEntry] ={
     val sb = new StringBuilder
     sb.append("SELECT geonames.name, geonames.pkey AS location, TimeLineEntries.start, TimeLineEntries.end")
-    sb.append("FROM TimeLineEntries JOIN geonames ON TimeLineEntries.location = geonames.pkey WHERE TimeLineEntries.pkey >= ")
-    sb.append(from)
-    sb.append(" AND ")
-    sb.append("TimeLineEntries.pkey <= ")
-    sb.append(to)
-    sb.append(" ORDER BY TimeLineEntries.pkey;") 
+    sb.append("FROM TimeLineEntries JOIN geonames ON TimeLineEntries.location = geonames.pkey WHERE TimeLineEntries.trip = ")
+    sb.append(trip)
+    sb.append(" ORDER BY TimeLineEntries.start;") 
     val query = sb.toString
 
     val result = dbConnection.retreiveQuery(query)
