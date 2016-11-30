@@ -26,6 +26,7 @@ class MySqlDatabase extends TravelServerDatabase {
   dbConnection.connect
 
   override def getName(longitude: Double, latitude: Double): Place = {
+    print("database getname")
     
     val pkey:BigInt = mostPopular(toHash(longitude, latitude))
     
@@ -35,9 +36,9 @@ class MySqlDatabase extends TravelServerDatabase {
     sb.append(";")
 
     val query = sb.toString
-
+    print("sending query")
     val result = dbConnection.retreiveQuery(query)
-
+    print("after query")
     if (result.isEmpty) throw LocationNotFoundException("Location not in db");
     else{
       println("found sth in db")
@@ -144,6 +145,7 @@ class MySqlDatabase extends TravelServerDatabase {
    }
   
   def nearbyPlace(longitude: Double, latitude: Double, user:Int):Array[Place] ={
+    println("database: nearbyPlace")
    
     val sb = new StringBuilder
     sb.append("SELECT * FROM geonames WHERE ABS(longitude-")
@@ -155,11 +157,12 @@ class MySqlDatabase extends TravelServerDatabase {
     sb.append(") ORDER BY popularity DESC;")
 
     val query = sb.toString
-
+    println("query")
     val result = dbConnection.retreiveQuery(query)
-
+    println("after query")
     if (result.isEmpty) throw LocationNotFoundException("No suggestions Found");
     else{
+      println("result is not empty")
       //gross code      
       var it = result.iterator
       var suggestions = new Array[Place](10)
@@ -174,22 +177,27 @@ class MySqlDatabase extends TravelServerDatabase {
     }
   }
   
-  def storeTimeLineEntry(location:BigInt, start:GregorianCalendar, end:GregorianCalendar, user:Int):Unit ={
+  def storeTimeLineEntry(location:BigInt, start:GregorianCalendar, end:GregorianCalendar, user:Int, trip:BigInt):Unit ={
+    println("db store timeline entry")
     val key:BigInt = 100000000* user + start.getTimeInMillis/100000;
     val sb = new StringBuilder
-    sb.append("INSERT INTO `TimeLineEntries` (pkey, location, start, end, user) VALUES (")
-    sb.append(key + ", ").append(`location` + ", ").append(start.getTimeInMillis/1000 + ", ").append(end.getTimeInMillis/1000 + ", ").append(user + ");")
+    sb.append("INSERT INTO `TimeLineEntries` (pkey, location, start, end, user, trip) VALUES (")
+    sb.append(key + ", ").append(`location` + ", ").append(start.getTimeInMillis/1000 + ", ").append(end.getTimeInMillis/1000 + ", ").append(user + ", ").append(trip + ");")
     val query = sb.toString
     dbConnection.executeQuery(query);
+    println("db stored timeline entry: DONE")
   }
   
-  def storeTrip(user:Int, name:String, start:GregorianCalendar, end:GregorianCalendar):Unit = {
+  def storeTrip(user:Int, name:String, start:GregorianCalendar, end:GregorianCalendar):BigInt = {
+    println("db store trip")
     val key:BigInt = 100000000* user + start.getTimeInMillis/100000;
     val sb = new StringBuilder
     sb.append("INSERT INTO `Trips` (pkey, user, tripname, start, end) VALUES (")
-    sb.append(key + ", ").append(user + ", ").append(name + ", ").append(start.getTimeInMillis/1000 + ", ").append(end.getTimeInMillis/1000 + ");")
+    sb.append(key + ", ").append(user + ", ").append("\'" + name + "\', ").append(start.getTimeInMillis/1000 + ", ").append(end.getTimeInMillis/1000 + ");")
     val query = sb.toString
     dbConnection.executeQuery(query);
+    println("db stored trip: DONE")
+    return key;
   }
   
   def getAllTrips(user:Int):List[List[ServerTimeLineEntry]] = {
@@ -200,23 +208,18 @@ class MySqlDatabase extends TravelServerDatabase {
       var it = result.iterator
       while(it.hasNext) {
         var res = it.next()
-        trips.+=(getTrip(user, res.get("start").asInstanceOf[Int], res.get("end").asInstanceOf[Int]))
+        trips.+=(getTrip(res.get("pkey").asInstanceOf[BigInt]))
       }
       return trips.toList
     }
   }
   
-  def getTrip(user:Int, start:Long, end:Long):List[ServerTimeLineEntry] ={
-    val from:BigInt = 100000000* user + start/100;
-    val to:BigInt = 100000000* user + end/100;
+  def getTrip(trip:BigInt):List[ServerTimeLineEntry] ={
     val sb = new StringBuilder
     sb.append("SELECT geonames.name, geonames.pkey AS location, TimeLineEntries.start, TimeLineEntries.end")
-    sb.append("FROM TimeLineEntries JOIN geonames ON TimeLineEntries.location = geonames.pkey WHERE TimeLineEntries.pkey >= ")
-    sb.append(from)
-    sb.append(" AND ")
-    sb.append("TimeLineEntries.pkey <= ")
-    sb.append(to)
-    sb.append(" ORDER BY TimeLineEntries.pkey;") 
+    sb.append("FROM TimeLineEntries JOIN geonames ON TimeLineEntries.location = geonames.pkey WHERE TimeLineEntries.trip = ")
+    sb.append(trip)
+    sb.append(" ORDER BY TimeLineEntries.start;") 
     val query = sb.toString
 
     val result = dbConnection.retreiveQuery(query)

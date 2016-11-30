@@ -19,6 +19,7 @@ public class Suggestion {
     }
 	
 	public List<Place> placeSuggestions(double longitude, double latitude, int user) {
+		System.out.println("Suggestion: suggestions");
 		List<Place> result = new ArrayList<Place>();
 		try {
 			Place[] dbresponse = db.nearbyPlace(longitude, latitude, user);
@@ -33,18 +34,20 @@ public class Suggestion {
 		}
 	}
 	
-	public void addTimeLine(int user, String json) {
+	public BigInt addTimeLine(int user, String json) {
 		System.out.println("in suggestion: addtimeline");
 		Gson gson = new Gson();
 		ServerTimeLineEntry[] entries = gson.fromJson(json, ServerTimeLineEntry[].class);
 		System.out.println("gson parse survived");
 		if (entries.length > 0) {
-			db.storeTrip(user, "default name", entries[0].start, entries[entries.length-1].end);
+			BigInt trip = db.storeTrip(user, "default name", entries[0].start, entries[entries.length-1].end);
+			for (ServerTimeLineEntry entry : entries) {
+				System.out.println("Entry: "+ entry.location.toString() + entry.start.getTimeInMillis() + entry.end.getTimeInMillis());
+				db.storeTimeLineEntry(BigInt.javaBigInteger2bigInt(entry.location), entry.start, entry.end, user, trip);
+			}
+			return trip;
 		}
-		for (ServerTimeLineEntry entry : entries) {
-			System.out.println("Entry: "+ entry.location.toString() + entry.start.getTimeInMillis() + entry.end.getTimeInMillis());
-			db.storeTimeLineEntry(BigInt.javaBigInteger2bigInt(entry.location), entry.start, entry.end, user);
-		}
+		return null;
 	}
 	
 }

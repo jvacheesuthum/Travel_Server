@@ -33,16 +33,17 @@ public class PlaceFinder {
     }
 
     public String getPlace(Double longitude, Double latitude) {
+    	System.out.println("PlaceFinder get place: " + longitude + ", " + latitude);
         
     	String result;
         
         try {
             //try to find from stored data
-        	if (verbose) System.out.println("searching in db");
+        	System.out.println("searching in db");
             Place p = db.getName(longitude, latitude);
             return p.getName();
         } catch (LocationNotFoundException e) {
-        	if (verbose) System.out.println("not found in db");
+        	System.out.println("not found in db");
             // if data is not found in db, search google maps
             result = webGetPlace(longitude, latitude);
         }
