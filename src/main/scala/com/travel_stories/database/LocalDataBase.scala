@@ -11,7 +11,7 @@ class LocalDataBase extends TravelServerDatabase{
     longitude + ", "  + latitude
     null
   }
-
+  override def getLocation(name:String):Place = null
   override def storeName(name: String, longitude: Double, latitude: Double): Unit = {}
   
   override def nearbyPlace(longitude: Double, latitude: Double, user:Int):Array[Place] = null

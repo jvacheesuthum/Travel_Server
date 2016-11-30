@@ -9,6 +9,9 @@ trait TravelServerDatabase {
 
   @throws(classOf[LocationNotFoundException])
   def getName(longitude:Double, latitude:Double):Place
+
+  @throws(classOf[LocationNotFoundException])
+  def getLocation(name:String):Place
   
   def storeName(name:String, longitude:Double, latitude:Double):Unit
   

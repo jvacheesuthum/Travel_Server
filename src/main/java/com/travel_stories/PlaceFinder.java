@@ -100,7 +100,51 @@ public class PlaceFinder {
 
     }
     
-    private String storeInDB(String result, Double longitude, Double latitude) {
+    public Place locationFromName(String name) {
+    	Place result;
+        
+        try {
+            //try to find from stored data
+        	System.out.println("searching in db");
+            result = db.getLocation(name);
+            return result;
+        } catch (LocationNotFoundException e) {
+        	System.out.println("not found in db");
+            // if data is not found in db, search google maps
+            result = webGetLocation(name);
+        }
+        return result;
+    }
+
+	private Place webGetLocation(String name) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("https://maps.googleapis.com/maps/api/place/textsearch/json?query=");
+        String[] namefragment = name.split(" ");
+        sb.append(namefragment[0]);
+        for (int i = 1; i < namefragment.length; i++) {
+        	sb.append('+'+namefragment[i]);
+        }
+        sb.append("&key="+key);
+
+        try {
+            // request and parse the json response from google map api
+            URL apirequest = new URL(sb.toString());
+            JsonParser jp = new JsonParser();
+            JsonObject apiresponse = jp.parse(new InputStreamReader((InputStream) apirequest.getContent())).getAsJsonObject();
+            if (apiresponse.get("status").getAsString().equals("OK")) {
+                double lat = apiresponse.getAsJsonArray("results").get(0).getAsJsonObject().get("geometry").getAsJsonObject().get("location").getAsJsonObject().get("lat").getAsDouble();
+                double lng = apiresponse.getAsJsonArray("results").get(0).getAsJsonObject().get("geometry").getAsJsonObject().get("location").getAsJsonObject().get("lng").getAsDouble();
+                // store in db, make it return a place.
+            }
+
+        } catch (JsonIOException | JsonSyntaxException | IOException e) {
+            System.out.println("Error in api request or result");
+            return null;
+        }
+        return null;
+	}
+
+	private String storeInDB(String result, Double longitude, Double latitude) {
     	if (result != null) {
     		db.storeName(result, longitude, latitude);
     	}

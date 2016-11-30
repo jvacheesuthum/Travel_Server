@@ -54,6 +54,33 @@ class MySqlDatabase extends TravelServerDatabase {
     }
   }
   
+  override def getLocation(name:String):Place = {
+    print("database getLocation")
+    
+    val sb = new StringBuilder
+    sb.append("SELECT * FROM `geonames` WHERE `name` LIKE \'")
+    sb.append(name)
+    sb.append("\' ORDER BY popularity;")
+
+    val query = sb.toString
+    print("sending query")
+    val result = dbConnection.retreiveQuery(query)
+    print("after query")
+    if (result.isEmpty) throw LocationNotFoundException("Location not in db");
+    else{
+      println("found sth in db")
+      //gross code      
+      val long = result.head("longitude").asInstanceOf[Double]
+      val lat = result.head("latitude").asInstanceOf[Double]
+      val pkey = result.head("pkey").asInstanceOf[BigInt]
+      var p = new Place(pkey, name, long, lat)
+      p.setPopularity(Integer.parseUnsignedInt(result.head("popularity").toString()));
+      println("finish db")
+      return p
+      
+    }    
+  }
+  
   override def storeName(name:String, longitude: Double, latitude: Double):Unit = {
     
     val key = toHash(longitude, latitude)
