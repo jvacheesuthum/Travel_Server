@@ -27,7 +27,7 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
       case "timeline_address" => "timeline_address:" + nameRequest(request(1)).mkString("@")
       case "nearby_place" => "nearby_place:" + nearbyPlace(request.tail.mkString(":"))
       case "timeline_share" => "timeline_share:" + submitTimeline(request.tail.mkString(":"))
-      case "get_location" => "get_location:" locationRequest(request(1))
+      case "get_location" => "get_location:" + locationRequest(request(1))
       case "Login" => "Jimmys Finished" //Do Databse stuff
       case _ => "A new failure message"
 

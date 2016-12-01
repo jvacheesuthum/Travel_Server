@@ -40,8 +40,7 @@ public class PlaceFinder {
         try {
             //try to find from stored data
         	System.out.println("searching in db");
-            Place p = db.getName(longitude, latitude);
-            return p.getName();
+            return db.getName(longitude, latitude);
         } catch (LocationNotFoundException e) {
         	System.out.println("not found in db");
             // if data is not found in db, search google maps
