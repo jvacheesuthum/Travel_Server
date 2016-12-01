@@ -32,7 +32,7 @@ public class PlaceFinder {
         this.verbose = verbosity;
     }
 
-    public String getPlace(Double longitude, Double latitude) {
+    public Place getPlace(Double longitude, Double latitude) {
     	System.out.println("PlaceFinder get place: " + longitude + ", " + latitude);
         
     	String result;
@@ -134,7 +134,7 @@ public class PlaceFinder {
             if (apiresponse.get("status").getAsString().equals("OK")) {
                 double lat = apiresponse.getAsJsonArray("results").get(0).getAsJsonObject().get("geometry").getAsJsonObject().get("location").getAsJsonObject().get("lat").getAsDouble();
                 double lng = apiresponse.getAsJsonArray("results").get(0).getAsJsonObject().get("geometry").getAsJsonObject().get("location").getAsJsonObject().get("lng").getAsDouble();
-                // store in db, make it return a place.
+                return db.storeName(name, lng, lat);
             }
 
         } catch (JsonIOException | JsonSyntaxException | IOException e) {
@@ -144,11 +144,11 @@ public class PlaceFinder {
         return null;
 	}
 
-	private String storeInDB(String result, Double longitude, Double latitude) {
+	private Place storeInDB(String result, Double longitude, Double latitude) {
     	if (result != null) {
-    		db.storeName(result, longitude, latitude);
+    		return db.storeName(result, longitude, latitude);
     	}
-    	return result;
+    	return null;
     }
 
 }

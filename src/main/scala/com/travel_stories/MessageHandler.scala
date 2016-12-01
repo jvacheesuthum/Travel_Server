@@ -26,7 +26,8 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
       request(0) match {
       case "timeline_address" => "timeline_address:" + nameRequest(request(1)).mkString("@")
       case "nearby_place" => "nearby_place:" + nearbyPlace(request.tail.mkString(":"))
-      case "timeline_share" => "timeline_share: " + submitTimeline(request.tail.mkString(":"))
+      case "timeline_share" => "timeline_share:" + submitTimeline(request.tail.mkString(":"))
+      case "get_location" => "get_location:" locationRequest(request(1))
       case "Login" => "Jimmys Finished" //Do Databse stuff
       case _ => "A new failure message"
 
@@ -68,8 +69,32 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
         s = location.split(",");
         long = s(0).toDouble;
         lat = s(1).toDouble;
-        name = placeFinder.getPlace(long,lat)
-        )yield name //l = long::lat::l
+        place = placeFinder.getPlace(long,lat).getName()
+        )yield place //l = long::lat::l
+  }
+
+  
+  /*
+   * to be used when app is ready
+  def nameRequest(loc: String): Array[String] = {
+    print("message handler: NameReq")
+    val locationList = loc.split("@")
+    var l = List[String]()
+
+    for(location <- locationList;
+        s = location.split(",");
+        long = s(0).toDouble;
+        lat = s(1).toDouble;
+        place = placeFinder.getPlace(long,lat);
+        result = place.getKey().toString() + ',' + place.getName()
+        )yield result //l = long::lat::l
+  }
+
+  */
+  
+  def locationRequest(name: String):String = {
+    val place = placeFinder.locationFromName(name)
+    return place.getKey().toString() + ',' + place.getLongitude() + ',' + place.getLatitude()
   }
   
   def nearbyPlace(input:String): String = {

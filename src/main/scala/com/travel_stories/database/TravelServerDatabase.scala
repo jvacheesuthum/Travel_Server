@@ -13,7 +13,7 @@ trait TravelServerDatabase {
   @throws(classOf[LocationNotFoundException])
   def getLocation(name:String):Place
   
-  def storeName(name:String, longitude:Double, latitude:Double):Unit
+  def storeName(name:String, longitude:Double, latitude:Double):Place
   
   @throws(classOf[LocationNotFoundException])
   def nearbyPlace(longitude: Double, latitude: Double, user:Int):Array[Place]

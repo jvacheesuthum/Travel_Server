@@ -73,7 +73,7 @@ class MySqlDatabase extends TravelServerDatabase {
       val long = result.head("longitude").asInstanceOf[Double]
       val lat = result.head("latitude").asInstanceOf[Double]
       val pkey = result.head("pkey").asInstanceOf[BigInt]
-      var p = new Place(pkey, name, long, lat)
+      var p = new Place(pkey, name, lat, long)
       p.setPopularity(Integer.parseUnsignedInt(result.head("popularity").toString()));
       println("finish db")
       return p
@@ -81,9 +81,10 @@ class MySqlDatabase extends TravelServerDatabase {
     }    
   }
   
-  override def storeName(name:String, longitude: Double, latitude: Double):Unit = {
+  override def storeName(name:String, longitude: Double, latitude: Double):Place = {
     
     val key = toHash(longitude, latitude)
+    var pkey:BigInt = 0
     
     // check index entry to see if location already has registered names
     var sb = new StringBuilder
@@ -99,9 +100,10 @@ class MySqlDatabase extends TravelServerDatabase {
       query = sb.toString
       dbConnection.executeQuery(query);
       // add entry
+      pkey = entry(key, 1)
       sb = new StringBuilder
       sb.append("INSERT INTO `geonames` (pkey, longitude, latitude, name, popularity) VALUES (")
-      sb.append(entry(key, 1) + ", ").append(longitude + ", ").append(latitude + ", '").append(name + "', ").append("1 );")
+      sb.append(pkey + ", ").append(longitude + ", ").append(latitude + ", '").append(name + "', ").append("1 );")
       query = sb.toString
       dbConnection.executeQuery(query);
       
@@ -112,12 +114,14 @@ class MySqlDatabase extends TravelServerDatabase {
       
       if (entries > 98) {
         //max number of entries at a location is 99, so replace the last entry
+        pkey = entry(key, 99)
         sb = new StringBuilder
         sb.append("UPDATE `geonames` SET ")
         sb.append("longitude="+longitude).append(", latitude=" +latitude).append(", name='" + name)
-        sb.append("' WHERE pkey=").append(entry(key, 99)).append(";")
+        sb.append("' WHERE pkey=").append(pkey).append(";")
         query = sb.toString
-         dbConnection.executeQuery(query);
+        dbConnection.executeQuery(query);
+
       } else {
         //increase num of entries in index (the popularity field of index is num)
         sb = new StringBuilder
@@ -126,20 +130,19 @@ class MySqlDatabase extends TravelServerDatabase {
         query = sb.toString
         dbConnection.executeQuery(query);
         // add entry
+        pkey = entry(key, entries+1)
         sb = new StringBuilder
         sb.append("INSERT INTO `geonames` (pkey, longitude, latitude, name, popularity) VALUES (")
-        sb.append(entry(key, entries+1) + ", ").append(longitude + ", ").append(latitude + ", '").append(name + "', ").append("1 );")
+        sb.append(pkey + ", ").append(longitude + ", ").append(latitude + ", '").append(name + "', ").append("1 );")
         query = sb.toString
         dbConnection.executeQuery(query);
-        
+
       }
-      
     }
     
-    // if empty just add
-    // count
-    // if 99, overwrite
-    // else add to count
+    val place = new Place(pkey, name, latitude, longitude)
+    place.setPopularity(1)
+    return place
   }
   
   def toHash(longitude: Double, latitude: Double): BigInt = {
