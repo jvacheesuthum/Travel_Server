@@ -181,9 +181,9 @@ class MySqlDatabase extends TravelServerDatabase {
     val sb = new StringBuilder
     sb.append("SELECT * FROM geonames WHERE ABS(longitude-")
     sb.append(longitude)
-    sb.append(") < 0.5 AND ABS(latitude-")
+    sb.append(") < 5 AND ABS(latitude-")
     sb.append(latitude)
-    sb.append(") < 0.5 AND pkey NOT IN (SELECT location FROM TimeLineEntries WHERE user =")
+    sb.append(") < 5 AND pkey NOT IN (SELECT location FROM TimeLineEntries WHERE user =")
     sb.append(user)
     sb.append(") ORDER BY popularity DESC;")
 
