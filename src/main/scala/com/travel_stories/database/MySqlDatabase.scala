@@ -47,7 +47,7 @@ class MySqlDatabase extends TravelServerDatabase {
       val name = result.head("name").asInstanceOf[String]
       println(name)
       println(result.head("popularity"))
-      var p = new Place(pkey, name, latitude, longitude)
+      var p = new Place(new BigInteger(pkey.toString()), name, latitude, longitude)
       p.setPopularity(Integer.parseUnsignedInt(result.head("popularity").toString()));
       println("finish db")
       return p
@@ -141,7 +141,7 @@ class MySqlDatabase extends TravelServerDatabase {
       }
     }
     
-    val place = new Place(pkey, name, latitude, longitude)
+    val place = new Place(new BigInteger(pkey.toString()), name, latitude, longitude)
     place.setPopularity(1)
     return place
   }
@@ -179,7 +179,7 @@ class MySqlDatabase extends TravelServerDatabase {
     println("database: nearbyPlace")
    
     val sb = new StringBuilder
-    sb.append("SELECT * FROM geonames WHERE ABS(longitude-")
+    sb.append("SELECT * FROM geonames WHERE name <> 'index ' AND ABS(longitude-")
     sb.append(longitude)
     sb.append(") < 5 AND ABS(latitude-")
     sb.append(latitude)
