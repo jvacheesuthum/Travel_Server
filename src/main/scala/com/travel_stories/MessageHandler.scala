@@ -34,6 +34,7 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
 
       }
 
+    println(values)
     values
 
   }
