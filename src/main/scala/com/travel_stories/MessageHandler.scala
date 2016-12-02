@@ -66,9 +66,10 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
 
 
   def traceToServer(trace: String):Unit = {
+    println("trace string : " + trace)
     val traceList = trace.split("@")
-    val userId = traceList(0).asInstanceOf[BigInt]
-    val tripkey = traceList(1).asInstanceOf[BigInt]
+    val userId = traceList(0).toInt
+    val tripkey = traceList(1).toInt
     var count = 1
 
     //"1@/123,456/789,101112"
