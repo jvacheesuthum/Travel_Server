@@ -16,10 +16,10 @@ trait TravelServerDatabase {
   def storeName(name:String, longitude:Double, latitude:Double):Place
   
   @throws(classOf[LocationNotFoundException])
-  def nearbyPlace(longitude: Double, latitude: Double, user:Int):Array[Place]
+  def nearbyPlace(longitude: Double, latitude: Double, user:BigInt):Array[Place]
   
-  def storeTimeLineEntry(location:BigInt, start:GregorianCalendar, end:GregorianCalendar, user:Int, trip:BigInt):Unit
+  def storeTimeLineEntry(location:BigInt, start:GregorianCalendar, end:GregorianCalendar, user:BigInt, trip:BigInt):Unit
 
-  def storeTrip(user:Int, name:String, start:GregorianCalendar, end:GregorianCalendar):BigInt
+  def storeTrip(user:BigInt, name:String, start:GregorianCalendar, end:GregorianCalendar):BigInt
 
 }

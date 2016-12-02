@@ -3,6 +3,7 @@ package com.travel_stories.database
 import java.util.GregorianCalendar;
 import com.travel_stories.ServerTimeLineEntry
 import scala.collection.mutable.ListBuffer
+import java.math.BigInteger
 
 /**
   * Created by jam414 on 24/10/16.
@@ -46,7 +47,7 @@ class MySqlDatabase extends TravelServerDatabase {
       val name = result.head("name").asInstanceOf[String]
       println(name)
       println(result.head("popularity"))
-      var p = new Place(pkey, name, latitude, longitude)
+      var p = new Place(new BigInteger(pkey.toString()), name, latitude, longitude)
       p.setPopularity(Integer.parseUnsignedInt(result.head("popularity").toString()));
       println("finish db")
       return p
@@ -72,7 +73,7 @@ class MySqlDatabase extends TravelServerDatabase {
       //gross code      
       val long = result.head("longitude").asInstanceOf[Double]
       val lat = result.head("latitude").asInstanceOf[Double]
-      val pkey = result.head("pkey").asInstanceOf[BigInt]
+      val pkey = result.head("pkey").asInstanceOf[BigInteger]
       var p = new Place(pkey, name, lat, long)
       p.setPopularity(Integer.parseUnsignedInt(result.head("popularity").toString()));
       println("finish db")
@@ -140,7 +141,7 @@ class MySqlDatabase extends TravelServerDatabase {
       }
     }
     
-    val place = new Place(pkey, name, latitude, longitude)
+    val place = new Place(new BigInteger(pkey.toString()), name, latitude, longitude)
     place.setPopularity(1)
     return place
   }
@@ -174,15 +175,15 @@ class MySqlDatabase extends TravelServerDatabase {
     return key *100 + rank
    }
   
-  def nearbyPlace(longitude: Double, latitude: Double, user:Int):Array[Place] ={
+  def nearbyPlace(longitude: Double, latitude: Double, user:BigInt):Array[Place] ={
     println("database: nearbyPlace")
    
     val sb = new StringBuilder
-    sb.append("SELECT * FROM geonames WHERE ABS(longitude-")
+    sb.append("SELECT * FROM geonames WHERE name <> 'index ' AND ABS(longitude-")
     sb.append(longitude)
-    sb.append(") < 0.5 AND ABS(latitude-")
+    sb.append(") < 5 AND ABS(latitude-")
     sb.append(latitude)
-    sb.append(") < 0.5 AND pkey NOT IN (SELECT location FROM TimeLineEntries WHERE user =")
+    sb.append(") < 5 AND pkey NOT IN (SELECT location FROM TimeLineEntries WHERE user =")
     sb.append(user)
     sb.append(") ORDER BY popularity DESC;")
 
@@ -195,19 +196,22 @@ class MySqlDatabase extends TravelServerDatabase {
       println("result is not empty")
       //gross code      
       var it = result.iterator
+      println("iterator ok")
       var suggestions = new Array[Place](10)
+      println("array ok")
       for (i <- 0 to 9) {
         if (it.hasNext) {
           var res = it.next()
-          suggestions.update(i, new Place(res.get("pkey").asInstanceOf[BigInt], res.get("name").asInstanceOf[String], 
-              res.get("latitude").asInstanceOf[Double], res.get("longitude").asInstanceOf[Double]))
+          println("Suggestion: " + res.get("name").get.asInstanceOf[String])
+          suggestions.update(i, new Place(res.get("pkey").get.asInstanceOf[BigInteger], res.get("name").get.asInstanceOf[String], 
+              res.get("latitude").get.asInstanceOf[Double], res.get("longitude").get.asInstanceOf[Double]))
         }
       }
       return suggestions
     }
   }
   
-  def storeTimeLineEntry(location:BigInt, start:GregorianCalendar, end:GregorianCalendar, user:Int, trip:BigInt):Unit ={
+  def storeTimeLineEntry(location:BigInt, start:GregorianCalendar, end:GregorianCalendar, user:BigInt, trip:BigInt):Unit ={
     println("db store timeline entry")
     val key:BigInt = 100000000* user + start.getTimeInMillis/100000;
     val sb = new StringBuilder
@@ -218,8 +222,8 @@ class MySqlDatabase extends TravelServerDatabase {
     println("db stored timeline entry: DONE")
   }
   
-  def storeTrip(user:Int, name:String, start:GregorianCalendar, end:GregorianCalendar):BigInt = {
-    println("db store trip")
+  def storeTrip(user:BigInt, name:String, start:GregorianCalendar, end:GregorianCalendar):BigInt = {
+    println("db store trip")    
     val key:BigInt = 100000000* user + start.getTimeInMillis/100000;
     val sb = new StringBuilder
     sb.append("INSERT INTO `Trips` (pkey, user, tripname, start, end) VALUES (")
@@ -230,7 +234,7 @@ class MySqlDatabase extends TravelServerDatabase {
     return key;
   }
   
-  def getAllTrips(user:Int):List[List[ServerTimeLineEntry]] = {
+  def getAllTrips(user:BigInt):List[List[ServerTimeLineEntry]] = {
     val result = dbConnection.retreiveQuery("SELECT * FROM Trips WHERE user = " + user + " ORDER BY pkey;")
     if (result.isEmpty) throw LocationNotFoundException("No timeline entries found for this trip");
     else {
@@ -238,7 +242,7 @@ class MySqlDatabase extends TravelServerDatabase {
       var it = result.iterator
       while(it.hasNext) {
         var res = it.next()
-        trips.+=(getTrip(res.get("pkey").asInstanceOf[BigInt]))
+        trips.+=(getTrip(res.get("pkey").get.asInstanceOf[BigInteger]))
       }
       return trips.toList
     }
@@ -260,10 +264,10 @@ class MySqlDatabase extends TravelServerDatabase {
       while(it.hasNext) {
         var res = it.next()
         val startcal:GregorianCalendar = new GregorianCalendar()
-        startcal.setTimeInMillis(res.get("start").asInstanceOf[Long]*1000)
+        startcal.setTimeInMillis(res.get("start").get.asInstanceOf[Long]*1000)
         val endcal:GregorianCalendar = new GregorianCalendar()
-        endcal.setTimeInMillis(res.get("end").asInstanceOf[Long]*1000)
-        trip.+=(new ServerTimeLineEntry(null, res.get("name").asInstanceOf[String], res.get("location").asInstanceOf[java.math.BigInteger], startcal, endcal));
+        endcal.setTimeInMillis(res.get("end").get.asInstanceOf[Long]*1000)
+        trip.+=(new ServerTimeLineEntry(null, res.get("name").get.asInstanceOf[String], res.get("location").get.asInstanceOf[java.math.BigInteger], startcal, endcal));
       }
       return trip.toList;
     }    
