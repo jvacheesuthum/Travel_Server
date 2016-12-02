@@ -22,4 +22,5 @@ trait TravelServerDatabase {
 
   def storeTrip(user:BigInt, name:String, start:GregorianCalendar, end:GregorianCalendar):BigInt
 
+  def storeTrace(tripkey:BigInt, time:Int, long:Double, lat:Double):Unit
 }

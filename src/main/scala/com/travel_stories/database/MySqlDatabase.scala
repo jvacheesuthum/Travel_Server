@@ -272,6 +272,17 @@ class MySqlDatabase extends TravelServerDatabase {
       return trip.toList;
     }    
   }
+  
+  def storeTrace(tripkey:BigInt, time:Int, long:Double, lat:Double):Unit = {
+    val sb = new StringBuilder
+    sb.append("INSERT INTO `Traces` (time, longitude, latitude, trip) VALUES (")
+    sb.append(time + ", ").append(long + ", ").append(lat + ", ").append(tripkey + ");")
+    val query = sb.toString
+    dbConnection.executeQuery(query);
+    println("db stored trace entry: DONE")
+ 
+  }
+
 
   
 }
