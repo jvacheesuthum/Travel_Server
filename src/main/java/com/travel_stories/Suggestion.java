@@ -18,7 +18,7 @@ public class Suggestion {
     	this.db = db;
     }
 	
-	public List<Place> placeSuggestions(double longitude, double latitude, int user) {
+	public List<Place> placeSuggestions(double longitude, double latitude, BigInt user) {
 		System.out.println("Suggestion: suggestions");
 		List<Place> result = new ArrayList<Place>();
 		try {
@@ -34,7 +34,7 @@ public class Suggestion {
 		}
 	}
 	
-	public BigInt addTimeLine(int user, String json) {
+	public BigInt addTimeLine(BigInt user, String json) {
 		System.out.println("in suggestion: addtimeline");
 		Gson gson = new Gson();
 		ServerTimeLineEntry[] entries = gson.fromJson(json, ServerTimeLineEntry[].class);

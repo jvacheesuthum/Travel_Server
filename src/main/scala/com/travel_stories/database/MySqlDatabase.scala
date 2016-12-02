@@ -3,6 +3,7 @@ package com.travel_stories.database
 import java.util.GregorianCalendar;
 import com.travel_stories.ServerTimeLineEntry
 import scala.collection.mutable.ListBuffer
+import java.math.BigInteger
 
 /**
   * Created by jam414 on 24/10/16.
@@ -174,7 +175,7 @@ class MySqlDatabase extends TravelServerDatabase {
     return key *100 + rank
    }
   
-  def nearbyPlace(longitude: Double, latitude: Double, user:Int):Array[Place] ={
+  def nearbyPlace(longitude: Double, latitude: Double, user:BigInt):Array[Place] ={
     println("database: nearbyPlace")
    
     val sb = new StringBuilder
@@ -207,19 +208,18 @@ class MySqlDatabase extends TravelServerDatabase {
     }
   }
   
-  def storeTimeLineEntry(location:BigInt, start:GregorianCalendar, end:GregorianCalendar, user:Int, trip:BigInt):Unit ={
+  def storeTimeLineEntry(location:BigInt, start:GregorianCalendar, end:GregorianCalendar, user:BigInt, trip:BigInt):Unit ={
     println("db store timeline entry")
-    val key:BigInt = 100000000* user + start.getTimeInMillis/100000;
     val sb = new StringBuilder
-    sb.append("INSERT INTO `TimeLineEntries` (pkey, location, start, end, user, trip) VALUES (")
-    sb.append(key + ", ").append(`location` + ", ").append(start.getTimeInMillis/1000 + ", ").append(end.getTimeInMillis/1000 + ", ").append(user + ", ").append(trip + ");")
+    sb.append("INSERT INTO `TimeLineEntries` (location, start, end, user, trip) VALUES (")
+    sb.append(`location` + ", ").append(start.getTimeInMillis/1000 + ", ").append(end.getTimeInMillis/1000 + ", ").append(user + ", ").append(trip + ");")
     val query = sb.toString
     dbConnection.executeQuery(query);
     println("db stored timeline entry: DONE")
   }
   
-  def storeTrip(user:Int, name:String, start:GregorianCalendar, end:GregorianCalendar):BigInt = {
-    println("db store trip")
+  def storeTrip(user:BigInt, name:String, start:GregorianCalendar, end:GregorianCalendar):BigInt = {
+    println("db store trip")    
     val key:BigInt = 100000000* user + start.getTimeInMillis/100000;
     val sb = new StringBuilder
     sb.append("INSERT INTO `Trips` (pkey, user, tripname, start, end) VALUES (")
@@ -230,7 +230,7 @@ class MySqlDatabase extends TravelServerDatabase {
     return key;
   }
   
-  def getAllTrips(user:Int):List[List[ServerTimeLineEntry]] = {
+  def getAllTrips(user:BigInt):List[List[ServerTimeLineEntry]] = {
     val result = dbConnection.retreiveQuery("SELECT * FROM Trips WHERE user = " + user + " ORDER BY pkey;")
     if (result.isEmpty) throw LocationNotFoundException("No timeline entries found for this trip");
     else {

@@ -1,6 +1,7 @@
 package com.travel_stories
 
 import java.io.ByteArrayInputStream
+import java.math.BigInteger
 import java.nio.ByteBuffer
 import javax.imageio.ImageIO
 
@@ -100,15 +101,17 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
   def nearbyPlace(input:String): String = {
     print("message handler: NearbyPlace")
     val s = input.split(",")
-    val places = suggestion.placeSuggestions(s(0).toDouble, s(1).toDouble, s(2).toInt)
-    
+    val user:BigInteger = new BigInteger(s(2))
+    val places = suggestion.placeSuggestions(s(0).toDouble, s(1).toDouble, new BigInt(user))
+
     return gson.toJson(places)
   }
   
   def submitTimeline(input:String): String= {
     print("message handler: submit timeline")
     val s = input.split("@")
-    val tripkey:BigInt = suggestion.addTimeLine(s(0).toInt, s(1))
+    val user:BigInteger = new BigInteger(s(0))
+    val tripkey:BigInt = suggestion.addTimeLine(new BigInt(user), s(1))
     return tripkey.toString()
   }
 
