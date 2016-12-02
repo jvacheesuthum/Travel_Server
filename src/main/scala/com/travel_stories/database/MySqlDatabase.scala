@@ -73,7 +73,7 @@ class MySqlDatabase extends TravelServerDatabase {
       //gross code      
       val long = result.head("longitude").asInstanceOf[Double]
       val lat = result.head("latitude").asInstanceOf[Double]
-      val pkey = result.head("pkey").asInstanceOf[BigInt]
+      val pkey = result.head("pkey").asInstanceOf[BigInteger]
       var p = new Place(pkey, name, lat, long)
       p.setPopularity(Integer.parseUnsignedInt(result.head("popularity").toString()));
       println("finish db")
@@ -203,7 +203,7 @@ class MySqlDatabase extends TravelServerDatabase {
         if (it.hasNext) {
           var res = it.next()
           println("Suggestion: " + res.get("name").get.asInstanceOf[String])
-          suggestions.update(i, new Place(res.get("pkey").get.asInstanceOf[BigInt], res.get("name").get.asInstanceOf[String], 
+          suggestions.update(i, new Place(res.get("pkey").get.asInstanceOf[BigInteger], res.get("name").get.asInstanceOf[String], 
               res.get("latitude").get.asInstanceOf[Double], res.get("longitude").get.asInstanceOf[Double]))
         }
       }
@@ -242,7 +242,7 @@ class MySqlDatabase extends TravelServerDatabase {
       var it = result.iterator
       while(it.hasNext) {
         var res = it.next()
-        trips.+=(getTrip(res.get("pkey").get.asInstanceOf[BigInt]))
+        trips.+=(getTrip(res.get("pkey").get.asInstanceOf[BigInteger]))
       }
       return trips.toList
     }
