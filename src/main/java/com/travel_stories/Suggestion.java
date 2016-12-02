@@ -25,11 +25,13 @@ public class Suggestion {
 			Place[] dbresponse = db.nearbyPlace(longitude, latitude, user);
 			for (int i = 0; i < dbresponse.length; i++) {
 				if (dbresponse[i] != null) {
+					System.out.println("suggestion java: " + dbresponse[i].getName());
 					result.add(dbresponse[i]);
 				}
 			}
 			return result;
 		} catch (Exception e) {
+			System.out.println("Exception in suggestion java");
 			return result;
 		}
 	}

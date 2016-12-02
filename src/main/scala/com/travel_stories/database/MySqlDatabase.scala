@@ -200,6 +200,7 @@ class MySqlDatabase extends TravelServerDatabase {
       for (i <- 0 to 9) {
         if (it.hasNext) {
           var res = it.next()
+          println("Suggestion: " + res.get("name").asInstanceOf[String])
           suggestions.update(i, new Place(res.get("pkey").asInstanceOf[BigInt], res.get("name").asInstanceOf[String], 
               res.get("latitude").asInstanceOf[Double], res.get("longitude").asInstanceOf[Double]))
         }
