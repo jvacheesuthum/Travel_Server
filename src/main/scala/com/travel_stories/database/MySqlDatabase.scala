@@ -196,7 +196,9 @@ class MySqlDatabase extends TravelServerDatabase {
       println("result is not empty")
       //gross code      
       var it = result.iterator
+      println("iterator ok")
       var suggestions = new Array[Place](10)
+      println("array ok")
       for (i <- 0 to 9) {
         if (it.hasNext) {
           var res = it.next()
