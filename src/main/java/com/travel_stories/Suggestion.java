@@ -31,7 +31,7 @@ public class Suggestion {
 			}
 			return result;
 		} catch (Exception e) {
-			System.out.println("Exception in suggestion java");
+			System.out.println("Exception in suggestion java:" + e.getMessage());
 			return result;
 		}
 	}

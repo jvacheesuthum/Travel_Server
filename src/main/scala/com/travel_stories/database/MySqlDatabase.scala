@@ -202,9 +202,9 @@ class MySqlDatabase extends TravelServerDatabase {
       for (i <- 0 to 9) {
         if (it.hasNext) {
           var res = it.next()
-          println("Suggestion: " + res.get("name").asInstanceOf[String])
-          suggestions.update(i, new Place(res.get("pkey").asInstanceOf[BigInt], res.get("name").asInstanceOf[String], 
-              res.get("latitude").asInstanceOf[Double], res.get("longitude").asInstanceOf[Double]))
+          println("Suggestion: " + res.get("name").get.asInstanceOf[String])
+          suggestions.update(i, new Place(res.get("pkey").get.asInstanceOf[BigInt], res.get("name").get.asInstanceOf[String], 
+              res.get("latitude").get.asInstanceOf[Double], res.get("longitude").get.asInstanceOf[Double]))
         }
       }
       return suggestions
@@ -242,7 +242,7 @@ class MySqlDatabase extends TravelServerDatabase {
       var it = result.iterator
       while(it.hasNext) {
         var res = it.next()
-        trips.+=(getTrip(res.get("pkey").asInstanceOf[BigInt]))
+        trips.+=(getTrip(res.get("pkey").get.asInstanceOf[BigInt]))
       }
       return trips.toList
     }
@@ -264,10 +264,10 @@ class MySqlDatabase extends TravelServerDatabase {
       while(it.hasNext) {
         var res = it.next()
         val startcal:GregorianCalendar = new GregorianCalendar()
-        startcal.setTimeInMillis(res.get("start").asInstanceOf[Long]*1000)
+        startcal.setTimeInMillis(res.get("start").get.asInstanceOf[Long]*1000)
         val endcal:GregorianCalendar = new GregorianCalendar()
-        endcal.setTimeInMillis(res.get("end").asInstanceOf[Long]*1000)
-        trip.+=(new ServerTimeLineEntry(null, res.get("name").asInstanceOf[String], res.get("location").asInstanceOf[java.math.BigInteger], startcal, endcal));
+        endcal.setTimeInMillis(res.get("end").get.asInstanceOf[Long]*1000)
+        trip.+=(new ServerTimeLineEntry(null, res.get("name").get.asInstanceOf[String], res.get("location").get.asInstanceOf[java.math.BigInteger], startcal, endcal));
       }
       return trip.toList;
     }    
