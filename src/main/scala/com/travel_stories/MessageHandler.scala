@@ -18,6 +18,7 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
   val SIZE_OF_INT = 4
 
 
+
   def onMessage(message:String):String = {
 
     //var values:String;
@@ -29,6 +30,7 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
       case "timeline_share" => "timeline_share:" + submitTimeline(request.tail.mkString(":"))
       case "get_location" => "get_location:" + locationRequest(request(1))
       case "Login" => "Jimmys Finished" //Do Databse stuff
+      case "Final_map_trace" => traceToServer(request(1)); "jimmy"
       case _ => "A new failure message"
 
       }
@@ -60,6 +62,26 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
     val bi = ImageIO.read(in)
     t.upload(bi)
   }
+
+
+  def traceToServer(trace: String) = {
+    val traceList = trace.split("@")
+    val userId = traceList(0)
+
+    var t = List[String]()
+
+    //"1@/123,456/789,101112"
+
+    val locList = traceList(1).split("/")
+
+    for(location <- locList;
+        s = location.split(",");
+        long = s(0).toDouble;
+        lat = s(1).toDouble;
+        //DatabaseShit!!
+    )//yield place //l = long::lat::l
+  }
+
 
   def nameRequest(loc: String): Array[String] = {
     print("message handler: NameReq")
