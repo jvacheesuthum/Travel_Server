@@ -84,7 +84,7 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
     }
   }
 
-
+/*
   def nameRequest(loc: String): Array[String] = {
     print("message handler: NameReq")
     val locationList = loc.split("@")
@@ -98,9 +98,8 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
         )yield place //l = long::lat::l
   }
 
-  
-  /*
-   * to be used when app is ready
+  */
+
   def nameRequest(loc: String): Array[String] = {
     print("message handler: NameReq")
     val locationList = loc.split("@")
@@ -115,7 +114,6 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
         )yield result //l = long::lat::l
   }
 
-  */
   
   def locationRequest(name: String):String = {
     val place = placeFinder.locationFromName(name)
