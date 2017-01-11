@@ -229,8 +229,11 @@ class MySqlDatabase extends TravelServerDatabase {
     sb.append(user + ", ").append("\'" + name + "\', ").append(start.getTimeInMillis/1000 + ", ").append(end.getTimeInMillis/1000 + "); ")
     val query = sb.toString
     dbConnection.executeQuery(query);
+    println("write done")
     val result = dbConnection.retreiveQuery("SELECT LAST_INSERT_ID() FROM Trips;")
-    val key = result.head("pkey").asInstanceOf[BigInt]
+    println("asked for key")
+    if (!result.isEmpty) println("have something")    
+    val key = result.head("LAST_INSERT_ID").asInstanceOf[BigInt]
     println("db stored trip: DONE: key: " + key)
     return key;
   }
