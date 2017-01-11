@@ -295,7 +295,7 @@ class MySqlDatabase extends TravelServerDatabase {
   def linkPhoto(tlentry:BigInt, path:String):Unit = {
     val sb = new StringBuilder
     sb.append("INSERT INTO `Photo` (tlentry, path) VALUES (")
-    sb.append(tlentry + ", ").append(path + ");")
+    sb.append(tlentry + ", '").append(path + "');")
     dbConnection.executeQuery(sb.toString())
     println("db linked photo")
   }
