@@ -213,10 +213,9 @@ class MySqlDatabase extends TravelServerDatabase {
   
   def storeTimeLineEntry(location:BigInt, start:GregorianCalendar, end:GregorianCalendar, user:BigInt, trip:BigInt):Unit ={
     println("db store timeline entry")
-    val key:BigInt = 100000000* user + start.getTimeInMillis/100000;
     val sb = new StringBuilder
-    sb.append("INSERT INTO `TimeLineEntries` (pkey, location, start, end, user, trip) VALUES (")
-    sb.append(key + ", ").append(`location` + ", ").append(start.getTimeInMillis/1000 + ", ").append(end.getTimeInMillis/1000 + ", ").append(user + ", ").append(trip + ");")
+    sb.append("INSERT INTO `TimeLineEntries` (location, start, end, user, trip) VALUES (")
+    sb.append(`location` + ", ").append(start.getTimeInMillis/1000 + ", ").append(end.getTimeInMillis/1000 + ", ").append(user + ", ").append(trip + ");")
     val query = sb.toString
     dbConnection.executeQuery(query);
     println("db stored timeline entry: DONE")
@@ -224,13 +223,15 @@ class MySqlDatabase extends TravelServerDatabase {
   
   def storeTrip(user:BigInt, name:String, start:GregorianCalendar, end:GregorianCalendar):BigInt = {
     println("db store trip")    
-    val key:BigInt = 100000000* user + start.getTimeInMillis/100000;
+
     val sb = new StringBuilder
-    sb.append("INSERT INTO `Trips` (pkey, user, tripname, start, end) VALUES (")
-    sb.append(key + ", ").append(user + ", ").append("\'" + name + "\', ").append(start.getTimeInMillis/1000 + ", ").append(end.getTimeInMillis/1000 + ");")
+    sb.append("INSERT INTO `Trips` (user, tripname, start, end) VALUES (")
+    sb.append(user + ", ").append("\'" + name + "\', ").append(start.getTimeInMillis/1000 + ", ").append(end.getTimeInMillis/1000 + ");")
+    sb.append("SELECT SCOPE_IDENTITY();")
     val query = sb.toString
-    dbConnection.executeQuery(query);
-    println("db stored trip: DONE")
+    val result = dbConnection.retreiveQuery(query);
+    val key = result.head("SCOPE_IDENTITY").asInstanceOf[BigInt]
+    println("db stored trip: DONE: key: " + key)
     return key;
   }
   
