@@ -1,5 +1,6 @@
 package com.travel_stories;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +45,13 @@ public class Suggestion {
 		if (entries.length > 0) {
 			BigInt trip = db.storeTrip(user, "default name", entries[0].start, entries[entries.length-1].end);
 			for (ServerTimeLineEntry entry : entries) {
-				System.out.println("Entry: "+ entry.location.toString() + entry.start.getTimeInMillis() + entry.end.getTimeInMillis());
-				db.storeTimeLineEntry(BigInt.javaBigInteger2bigInt(entry.location), entry.start, entry.end, user, trip);
+				if (entry.location.equals(new BigInteger("0"))) {
+					Place userentry = db.storeName(entry.locationName, entry.lng, entry.lat);
+					db.storeTimeLineEntry(BigInt.javaBigInteger2bigInt(userentry.getKey()), entry.start, entry.end, user, trip);
+				} else {
+					System.out.println("Entry: "+ entry.location.toString() + entry.start.getTimeInMillis() + entry.end.getTimeInMillis());
+					db.storeTimeLineEntry(BigInt.javaBigInteger2bigInt(entry.location), entry.start, entry.end, user, trip);
+				}
 			}
 			return trip;
 		}
