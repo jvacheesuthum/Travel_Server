@@ -211,14 +211,19 @@ class MySqlDatabase extends TravelServerDatabase {
     }
   }
   
-  def storeTimeLineEntry(location:BigInt, start:GregorianCalendar, end:GregorianCalendar, user:BigInt, trip:BigInt):Unit ={
+  def storeTimeLineEntry(location:BigInt, start:GregorianCalendar, end:GregorianCalendar, user:BigInt, trip:BigInt):BigInt ={
     println("db store timeline entry")
     val sb = new StringBuilder
     sb.append("INSERT INTO `TimeLineEntries` (location, start, end, user, trip) VALUES (")
     sb.append(`location` + ", ").append(start.getTimeInMillis/1000 + ", ").append(end.getTimeInMillis/1000 + ", ").append(user + ", ").append(trip + ");")
     val query = sb.toString
     dbConnection.executeQuery(query);
-    println("db stored timeline entry: DONE")
+    println("write done")
+    val result = dbConnection.retreiveQuery("SELECT LAST_INSERT_ID() FROM TimeLineEntries;")
+    println("asked for key")
+    val key:BigInt = new BigInteger(result.head.get("LAST_INSERT_ID()").get.toString())
+    println("db stored timeline entry: DONE: key: " + key)
+    return key;
   }
   
   def storeTrip(user:BigInt, name:String, start:GregorianCalendar, end:GregorianCalendar):BigInt = {
@@ -285,6 +290,14 @@ class MySqlDatabase extends TravelServerDatabase {
     dbConnection.executeQuery(query);
     println("db stored trace entry: DONE")
  
+  }
+  
+  def linkPhoto(tlentry:BigInt, path:String):Unit = {
+    val sb = new StringBuilder
+    sb.append("INSERT INTO `Photo` (tlentry, path) VALUES (")
+    sb.append(tlentry + ", ").append(path + ");")
+    dbConnection.executeQuery(sb.toString())
+    println("db linked photo")
   }
 
 
