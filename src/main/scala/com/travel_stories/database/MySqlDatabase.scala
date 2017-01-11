@@ -233,9 +233,7 @@ class MySqlDatabase extends TravelServerDatabase {
     val result = dbConnection.retreiveQuery("SELECT LAST_INSERT_ID() FROM Trips;")
     println("asked for key")
     if (!result.isEmpty) println("have something: " + result.head.mkString(","))
-    println(result.head.get("LAST_INSERT_ID"))
-    println(result.head.get("LAST_INSERT_ID()"))
-        val key = result.head.get("LAST_INSERT_ID()").asInstanceOf[BigInt]
+    val key = result.head.get("LAST_INSERT_ID()").asInstanceOf[Int]
     println("db stored trip: DONE: key: " + key)
     return key;
   }
