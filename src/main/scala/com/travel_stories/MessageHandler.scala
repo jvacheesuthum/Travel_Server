@@ -31,7 +31,7 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
       case "timeline_share" => "timeline_share:" + submitTimeline(request.tail.mkString(":"))
       case "get_location" => "get_location:" + locationRequest(request(1))
       case "Login" => "Jimmys Finished" //Do Databse stuff
-      case "Final_map_trace" => traceToServer(request(1)); "jimmy"
+      case "Final_map_trace" => "Final_map_trace:" + traceToServer(request(1))
       case _ => "A new failure message"
 
       }
@@ -65,13 +65,15 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
   }
 
 
-  def traceToServer(trace: String):Unit = {
+  def traceToServer(trace: String):String = {
     println("trace string recieved : " + trace)
     val traceList = trace.split("@")
-    val tripkey = traceList(0).toInt
+    val user = traceList(0).toInt
     var count = 1
 
     //"1@/123,456/789,101112"
+    
+    val tripkey = db.storeTrip(user)
 
     val locList = traceList(1).split("/")
 
@@ -82,6 +84,8 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
       db.storeTrace(tripkey, count, long, lat)
       count+=1;
     }
+    
+    return tripkey.toString()
   }
 
 /*
@@ -133,8 +137,9 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
     print("message handler: submit timeline")
     val s = input.split("@")
     val user:BigInteger = new BigInteger(s(0))
-    val tripkey:BigInt = suggestion.addTimeLine(new BigInt(user), s(1))
-    return tripkey.toString()
+    val tripkey:BigInteger = new BigInteger(s(1))
+    val echo:BigInt = suggestion.addTimeLine(new BigInt(user), new BigInt(tripkey), s(2))
+    return echo.toString()
   }
 
 

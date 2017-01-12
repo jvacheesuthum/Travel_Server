@@ -19,6 +19,8 @@ class LocalDataBase extends TravelServerDatabase{
   override def storeTrace(tripkey:BigInt, time:Int, long:Double, lat:Double):Unit = {}
 
   override def storeTimeLineEntry(location:BigInt, start:GregorianCalendar, end:GregorianCalendar, user:BigInt, trip:BigInt):BigInt =null
-  override def storeTrip(user:BigInt, name:String, start:GregorianCalendar, end:GregorianCalendar):BigInt = null
+
+  def storeTrip(user:BigInt):BigInt = null
+  def updateTrip(tripkey:BigInt, name:String, start:GregorianCalendar, end:GregorianCalendar):Unit = {}
   override def linkPhoto(tlentry:BigInt, path:String):Unit = {}
 }

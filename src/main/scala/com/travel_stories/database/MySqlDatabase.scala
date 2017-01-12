@@ -226,15 +226,20 @@ class MySqlDatabase extends TravelServerDatabase {
     return key;
   }
   
-  def storeTrip(user:BigInt, name:String, start:GregorianCalendar, end:GregorianCalendar):BigInt = {
-    println("db store trip")    
-
+  def updateTrip(tripkey:BigInt, name:String, start:GregorianCalendar, end:GregorianCalendar):Unit = {
+    println("db update trip")  
     val sb = new StringBuilder
-    sb.append("INSERT INTO `Trips` (user, tripname, start, end) VALUES (")
-    sb.append(user + ", ").append("\'" + name + "\', ").append(start.getTimeInMillis/1000 + ", ").append(end.getTimeInMillis/1000 + "); ")
+    sb.append("UPDATE `Trips` SET tripname=")
+    sb.append("\'" + name + "\', start=").append(start.getTimeInMillis/1000 + ", end=").append(end.getTimeInMillis/1000)
+    sb.append("WHERE pkey=" + tripkey + ";")
     val query = sb.toString
     dbConnection.executeQuery(query);
-    println("write done")
+    println("update done")
+  }
+  
+  def storeTrip(user:BigInt):BigInt = {
+    val query = "INSERT INTO `Trips` (user, tripname, start, end) VALUES(" + user +  ", `undefined`, 0, 0);"
+    dbConnection.executeQuery(query);
     val result = dbConnection.retreiveQuery("SELECT LAST_INSERT_ID() FROM Trips;")
     println("asked for key")
     if (!result.isEmpty) println("have something: " + result.head.mkString(","))

@@ -37,27 +37,27 @@ public class Suggestion {
 		}
 	}
 	
-	public BigInt addTimeLine(BigInt user, String json) {
+	public BigInt addTimeLine(BigInt user, BigInt tripkey, String json) {
 		System.out.println("in suggestion: addtimeline");
 		Gson gson = new Gson();
 		ServerTimeLineEntry[] entries = gson.fromJson(json, ServerTimeLineEntry[].class);
 		System.out.println("gson parse survived");
 		if (entries.length > 0) {
-			BigInt trip = db.storeTrip(user, "default name", entries[0].start, entries[entries.length-1].end);
+			db.updateTrip(tripkey, "default name", entries[0].start, entries[entries.length-1].end);
 			for (ServerTimeLineEntry entry : entries) {
 				BigInt key;
 				if (entry.location.equals(new BigInteger("0"))) {
 					Place userentry = db.storeName(entry.locationName, entry.lng, entry.lat);
-					key = db.storeTimeLineEntry(BigInt.javaBigInteger2bigInt(userentry.getKey()), entry.start, entry.end, user, trip);
+					key = db.storeTimeLineEntry(BigInt.javaBigInteger2bigInt(userentry.getKey()), entry.start, entry.end, user, tripkey);
 				} else {
 					System.out.println("Entry: "+ entry.location.toString() + entry.start.getTimeInMillis() + entry.end.getTimeInMillis());
-					key = db.storeTimeLineEntry(BigInt.javaBigInteger2bigInt(entry.location), entry.start, entry.end, user, trip);
+					key = db.storeTimeLineEntry(BigInt.javaBigInteger2bigInt(entry.location), entry.start, entry.end, user, tripkey);
 				}
 				for (String path: entry.photos) {
 					db.linkPhoto(key, path);
 				}
 			}
-			return trip;
+			return tripkey;
 		}
 		return null;
 	}
