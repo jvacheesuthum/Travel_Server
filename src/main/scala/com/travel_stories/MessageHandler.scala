@@ -75,9 +75,10 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
     
     val tripkey:BigInt = db.storeTrip(user)
     println("tracelist is : " + traceList(1))
-    val locList = traceList(1).split("/")
+    val locList = traceList(1).drop(1).split("/")
 
     for(location <- locList) {
+      println("for each trace")
       val s = location.split(",");
       val  long = s(0).toDouble;
       val  lat = s(1).toDouble;
