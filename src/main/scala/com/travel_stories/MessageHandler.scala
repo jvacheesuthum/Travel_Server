@@ -66,21 +66,21 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
 
 
   def traceToServer(trace: String):Unit = {
-    println("trace string : " + trace)
+    println("trace string recieved : " + trace)
     val traceList = trace.split("@")
-    val userId = traceList(0).toInt
-    val tripkey = traceList(1).toInt
+    val tripkey = traceList(0).toInt
     var count = 1
 
     //"1@/123,456/789,101112"
 
-    val locList = traceList(2).split("/")
+    val locList = traceList(1).split("/")
 
     for(location <- locList) {
       val s = location.split(",");
       val  long = s(0).toDouble;
       val  lat = s(1).toDouble;
       db.storeTrace(tripkey, count, long, lat)
+      count+=1;
     }
   }
 
