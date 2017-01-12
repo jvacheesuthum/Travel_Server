@@ -238,7 +238,7 @@ class MySqlDatabase extends TravelServerDatabase {
   }
   
   def storeTrip(user:BigInt):BigInt = {
-    val query = "INSERT INTO `Trips` (user, tripname, start, end) VALUES(" + user +  ", `undefined`, 0, 0);"
+    val query = "INSERT INTO `Trips` (user, tripname, start, end) VALUES(" + user +  ", 'undefined', 0, 0);"
     dbConnection.executeQuery(query);
     val result = dbConnection.retreiveQuery("SELECT LAST_INSERT_ID() FROM Trips;")
     println("asked for key")
