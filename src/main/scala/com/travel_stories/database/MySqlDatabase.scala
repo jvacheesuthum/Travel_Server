@@ -288,6 +288,7 @@ class MySqlDatabase extends TravelServerDatabase {
   }
   
   def storeTrace(tripkey:BigInt, time:Int, long:Double, lat:Double):Unit = {
+    println("db store trace start")
     val sb = new StringBuilder
     sb.append("INSERT INTO `Traces` (time, longitude, latitude, trip) VALUES (")
     sb.append(time + ", ").append(long + ", ").append(lat + ", ").append(tripkey + ");")

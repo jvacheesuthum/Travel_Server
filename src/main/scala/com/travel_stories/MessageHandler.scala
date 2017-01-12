@@ -73,14 +73,15 @@ class MessageHandler(db:TravelServerDatabase) { //(socketConn:SocketNetworkConne
 
     //"1@/123,456/789,101112"
     
-    val tripkey = db.storeTrip(user)
-
+    val tripkey:BigInt = db.storeTrip(user)
+    println("tracelist is : " + traceList(1))
     val locList = traceList(1).split("/")
 
     for(location <- locList) {
       val s = location.split(",");
       val  long = s(0).toDouble;
       val  lat = s(1).toDouble;
+      println("handler call store trace: trip " + tripkey + ", count " + count)
       db.storeTrace(tripkey, count, long, lat)
       count+=1;
     }
