@@ -231,7 +231,7 @@ class MySqlDatabase extends TravelServerDatabase {
     val sb = new StringBuilder
     sb.append("UPDATE `Trips` SET tripname=")
     sb.append("\'" + name + "\', start=").append(start.getTimeInMillis/1000 + ", end=").append(end.getTimeInMillis/1000)
-    sb.append("WHERE pkey=" + tripkey + ";")
+    sb.append(" WHERE pkey=" + tripkey + ";")
     val query = sb.toString
     dbConnection.executeQuery(query);
     println("update done")
