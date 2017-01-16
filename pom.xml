@@ -155,7 +155,7 @@
       </properties>
     </profile>
     <profile>
-        <id>IntegrationTests</id>
+        <id>integrationTests</id>
         <properties>
             <tagsToExclude>com.travel_stories.tags.UnitTest</tagsToExclude>
         </properties>
