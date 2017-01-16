@@ -13,8 +13,8 @@ class MySqlDatabaseIT extends IntegrationSpec{
       //val testString = dbtest.getName(1024,1024);
     }
 
-  "A MySql Database Query for the name with logitude and latitude 1024" should "return name test" taggedAs(DbTest) ignore {
-    val db = dbFixture.mySQLDb;
+  "A MySql Database Query for the name with logitude and latitude 1024" should "return name test" taggedAs DbTest in {
+    val db = dbFixture.mySQLDb
     db.getName(1024,1024) shouldBe "Test"
   }
 

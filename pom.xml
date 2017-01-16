@@ -146,4 +146,19 @@
       <version>3.1.1</version>
     </dependency>
   </dependencies>
+  <profiles>
+    <profile>
+      <id>unitTests</id>
+      <properties>
+          <tagsToExclude>com.travel_stories.tags.IntegrationTest, com.travel_stories.tags.DbTest</tagsToExclude>
+          <jUnitClasses>com.travel_stories.PlaceFinderTest</jUnitClasses>
+      </properties>
+    </profile>
+    <profile>
+        <id>IntegrationTests</id>
+        <properties>
+            <tagsToExclude>com.travel_stories.tags.UnitTest</tagsToExclude>
+        </properties>
+    </profile>
+  </profiles>
 </project>
