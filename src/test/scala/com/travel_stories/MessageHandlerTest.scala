@@ -20,7 +20,7 @@ class MessageHandlerTest extends UnitSpec{
 
     val ret = comm.handler.onMessage(message)
 
-    ret shouldBe "-0.1269566, 51.5194133,-2.004155, 53.27115,-3.357819, 57.155797"
+    ret shouldBe "timeline_address:0,The British Museum@0,Thursbitch@0,Inchrory"
   }
 
 
