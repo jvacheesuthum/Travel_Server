@@ -9,7 +9,7 @@ import java.sql._;
 /**
   * Created by jam414 on 24/10/16.
   */
-class DatabaseConnection {
+class DatabaseConnection extends DBCon {
   //JDBC drivername and Database URL
   private val DB_URL = "jdbc:mysql://localhost:3306/locations?autoReconnect=true&useSSL=false"
 
@@ -31,7 +31,7 @@ class DatabaseConnection {
         case e: Exception => e.printStackTrace();
       }
   }
-
+  
   def retreiveQuery(sql:String):List[Map[String, Object]] = {
     var databaseValues = List[Map[String, Object]]()
 

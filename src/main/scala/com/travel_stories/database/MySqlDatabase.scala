@@ -8,7 +8,7 @@ import java.math.BigInteger
 /**
   * Created by jam414 on 24/10/16.
   */
-class MySqlDatabase extends TravelServerDatabase {
+class MySqlDatabase(dbConnection: DBCon) extends TravelServerDatabase {
   
   // format of database:
   // | pkey | longitude | latitude | name | popularity |
@@ -23,7 +23,6 @@ class MySqlDatabase extends TravelServerDatabase {
   // this is optimised so that retrieving the most popular name at a location is fast for db
   // only requires a lookup of pkey = hash(long, lat) * 100 +1
 
-  val dbConnection = new DatabaseConnection()
   dbConnection.connect
 
   override def getName(longitude: Double, latitude: Double): Place = {
