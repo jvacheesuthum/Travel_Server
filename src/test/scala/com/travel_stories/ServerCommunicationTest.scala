@@ -11,7 +11,7 @@ class ServerCommunicationTest extends UnitSpec {
 
   def CommFixture =
     new {
-      val serverPort = 1080
+      val serverPort = 1181
       val communicator = new ServerCommunication(serverPort, new MessageHandler(new LocalDataBase))
       val client = new Client_scala("ws://localhost:" + serverPort)
     }
