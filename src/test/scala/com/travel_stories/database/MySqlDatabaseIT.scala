@@ -9,7 +9,7 @@ class MySqlDatabaseIT extends IntegrationSpec{
 
   def dbFixture =
     new {
-      val mySQLDb = new MySqlDatabase;
+      val mySQLDb = new MySqlDatabase(new DatabaseConnection());
       //val testString = dbtest.getName(1024,1024);
     }
 
