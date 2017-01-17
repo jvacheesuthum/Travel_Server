@@ -13,9 +13,9 @@ class MySqlDatabaseIT extends IntegrationSpec{
       //val testString = dbtest.getName(1024,1024);
     }
 
-  "A MySql Database Query for the name with logitude and latitude 1024" should "return name test" taggedAs DbTest in {
+  "A MySql Database Query for the name at -0.1794343, 51.4988160" should "return Computing Department" taggedAs DbTest in {
     val db = dbFixture.mySQLDb
-    db.getName(1024,1024) shouldBe "Test"
+    db.getName(-0.1794343, 51.4988160) shouldBe "Computing Department"
   }
 
 
