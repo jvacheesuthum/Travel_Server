@@ -17,7 +17,7 @@ class MySqlDatabaseIT extends IntegrationSpec{
     "be in the database" taggedAs DbTest in {
     //The Huxley Building has already been added
     val db = dbFixture.mySQLDb
-    db.getName(  51.4987336, -0.1796177) shouldBe "The Huxley Building"
+    db.getName(-0.1796177, 51.4987336) shouldBe "The Huxley Building"
   }
 
 
