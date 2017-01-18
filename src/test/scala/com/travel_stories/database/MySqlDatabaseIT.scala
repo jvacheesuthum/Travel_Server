@@ -28,6 +28,7 @@ class MySqlDatabaseIT extends IntegrationSpec{
     val items:Int = db.nearbyPlace(-0.1794343, 51.4988160, 1).length
     items >0 shouldBe true
   }
+  
   /*
   "A MySql Database Query for trip 1" should
     "have default timeline entry that starts at 1" taggedAs DbTest in {

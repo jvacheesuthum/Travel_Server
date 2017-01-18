@@ -8,7 +8,7 @@ import org.jmock.{Expectations, Mockery}
   */
 class MessageToDatabaseIT extends IntegrationSpec{
 
-  /*
+  
 
   val context:Mockery =new Mockery()
   val dbconnection:DBCon = context.mock(classOf[DBCon])
@@ -76,6 +76,6 @@ class MessageToDatabaseIT extends IntegrationSpec{
         CommFixture.handler.onMessage("Final_map_trace:1@/1.0,2.0/3.0,4.0/5.0,6.0")
     
   }
-  */
+  
 
 }
