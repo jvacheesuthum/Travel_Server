@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.google.gson.Gson;
 import com.travel_stories.database.Place;
-import com.travel_stories.ServerTimeLineEntry;
 import com.travel_stories.database.TravelServerDatabase;
 
 import scala.math.BigInt;
@@ -40,11 +39,11 @@ public class Suggestion {
 	public BigInt addTimeLine(BigInt user, BigInt tripkey, String json) {
 		System.out.println("in suggestion: addtimeline");
 		Gson gson = new Gson();
-		ServerTimeLineEntry[] entries = gson.fromJson(json, ServerTimeLineEntry[].class);
+		ServerTimeLineEntryJava[] entries = gson.fromJson(json, ServerTimeLineEntryJava[].class);
 		System.out.println("gson parse survived");
 		if (entries.length > 0) {
 			db.updateTrip(tripkey, "default name", entries[0].start, entries[entries.length-1].end);
-			for (ServerTimeLineEntry entry : entries) {
+			for (ServerTimeLineEntryJava entry : entries) {
 				BigInt key;
 				if (entry.location.equals(new BigInteger("0"))) {
 					Place userentry = db.storeName(entry.locationName, entry.lng, entry.lat);

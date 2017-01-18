@@ -4,6 +4,7 @@ import com.travel_stories.database.{LocalDataBase, TravelServerDatabase}
 import com.travel_stories.tagobjects.UnitTest;
 
 class PlaceFinderScalaTest extends UnitSpec{
+  /* Cant test java code with scala
 
     val verbosity:Boolean = true
 
@@ -41,5 +42,5 @@ class PlaceFinderScalaTest extends UnitSpec{
         System.out.println("Expected nothing, Got: " + result)
         result shouldBe null
     }
-
+*/
 }
