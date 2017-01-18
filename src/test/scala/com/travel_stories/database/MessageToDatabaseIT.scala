@@ -1,15 +1,14 @@
-package com.travel_stories
+package com.travel_stories.database
 
-import com.travel_stories.database.MySqlDatabase
-import com.travel_stories.database.DBCon
-import com.travel_stories.tagobjects.IntegrationTest
-import org.jmock.Mockery
-import org.jmock.Expectations
+import com.travel_stories.{IntegrationSpec, MessageHandler}
+import org.jmock.{Expectations, Mockery}
 
 /**
   * Created by Gengar on 14/11/2016.
   */
-class IntegrationTest extends IntegrationSpec{
+class MessageToDatabaseIT extends IntegrationSpec{
+
+  /*
 
   val context:Mockery =new Mockery()
   val dbconnection:DBCon = context.mock(classOf[DBCon])
@@ -19,7 +18,7 @@ class IntegrationTest extends IntegrationSpec{
       val handler = new MessageHandler(db)
     }
 
-  def getNameTest = {
+  "an IntegrationTest" should "Do this" taggedAs DbTest in {
     context.checking(
         new Expectations{
           exactly(1).of(dbconnection).retreiveQuery("SELECT * FROM `geonames` WHERE `pkey` = 5160658127401;")
@@ -29,7 +28,7 @@ class IntegrationTest extends IntegrationSpec{
     
   }
   
-  def storeNameTest = {
+  it should "Do this" taggedAs DbTest in {
     context.checking(
         new Expectations{
           atLeast(1).of(dbconnection).retreiveQuery("SELECT `popularity` FROM `geonames` WHERE `pkey` = 5160658127401;")
@@ -38,7 +37,7 @@ class IntegrationTest extends IntegrationSpec{
     
   }
   
-  def suggestionTest = {
+  it should "Do this" taggedAs DbTest in {
     context.checking(
         new Expectations{
           exactly(1).of(dbconnection).retreiveQuery(
@@ -65,7 +64,7 @@ class IntegrationTest extends IntegrationSpec{
 
   */
 
-  def storeTraceTest = {
+  it should "Do this" taggedAs DbTest in {
     context.checking(
         new Expectations{
           exactly(1).of(dbconnection).executeQuery("INSERT INTO `Trips` (user, tripname, start, end) VALUES(1, 'undefined', 0, 0);")
@@ -77,5 +76,6 @@ class IntegrationTest extends IntegrationSpec{
         CommFixture.handler.onMessage("Final_map_trace:1@/1.0,2.0/3.0,4.0/5.0,6.0")
     
   }
+  */
 
 }
