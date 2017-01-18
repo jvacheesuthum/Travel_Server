@@ -1,9 +1,10 @@
 package com.travel_stories.database
 
-import java.util.GregorianCalendar;
-import com.travel_stories.ServerTimeLineEntry
+import java.util.GregorianCalendar
+
 import scala.collection.mutable.ListBuffer
 import java.math.BigInteger
+import com.travel_stories.ServerTimeLineEntry
 
 /**
   * Created by jam414 on 24/10/16.
