@@ -9,7 +9,7 @@ import org.jmock.{Expectations, Mockery}
 class MessageToDatabaseIT extends IntegrationSpec{
 
   
-
+/*
   val context:Mockery =new Mockery()
   val dbconnection:DBCon = context.mock(classOf[DBCon])
   val db = new MySqlDatabase(dbconnection)
@@ -77,5 +77,5 @@ class MessageToDatabaseIT extends IntegrationSpec{
     
   }
   
-
+*/
 }
